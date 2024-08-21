@@ -1,21 +1,22 @@
 /*
- * @file    part1.c
- * @author  Roronoa Zoro (rorozoro3@ucsc.edu)
- * @brief   A journey through the debugging and styling of C code.  
+ * A journey through the debugging and styling of C code.  
+ *
+ * File:    part1.c
+ * Author:  Roronoa Zoro (rorozoro3@ucsc.edu)
  * 
- * @date    January 1, 1970
+ * Created on January 1, 1970.
  */
-// **** Include libraries here ****
+// **** Include libraries up here. ****
 // Standard libraries
 #include <stdio.h>
 #include <stdlib.h>
 
-//Class specific libraries
+// Course libraries.
 #include <BOARD.h>
 
-
-// User libraries
-
+/*
+ *
+ */
 int main(void) {
     BOARD_Init();
     unsigned char vals[] = {rand(), rand(), rand(), rand(), rand()};

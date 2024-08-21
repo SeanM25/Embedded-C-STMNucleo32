@@ -1,26 +1,26 @@
 /*
- * @file    part2.c
- * @author  Roronoa Zoro (rorozoro3@ucsc.edu)
- * @brief   Convert temperatures from Fahrenheit to Celsius and Kelvin.
+ * Convert temperatures from Fahrenheit to Celsius and Kelvin.
+ *
+ * File:    part2.c
+ * Author:  Roronoa Zoro (rorozoro3ucsc.edu)
  * 
- * @date    January 1, 1970
+ * Created on January 1, 1970.
  */
-// **** Include libraries here ****
-// Standard libraries
+// Standard libraries.
 #include <stdio.h>
 #include <stdlib.h>
 
-//Class specific libraries
-#ifdef STM32F4
-#include <BOARD.h>
+// Course libraries.
+#ifdef STM32F4      // This "ifdef" statement lets our code run on either
+#include <BOARD.h>  // the Nucleo board or from our dev environment.
 #else
 #include "BOARD.h"
 #endif  /*  STM32F4 */
 
 
-// User libraries
-
-
+/*
+ *
+ */
 int main(void) {
     BOARD_Init();
     /***************************************************************************
@@ -35,5 +35,5 @@ int main(void) {
 
     // Returning from main() is bad form in embedded environments.
     // So we sit and spin.
-    while (1);
+    while(1);
 }
