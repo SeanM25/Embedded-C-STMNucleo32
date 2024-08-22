@@ -23,7 +23,6 @@ int main(void) {
     int valsToBeSorted[] = {vals[0], vals[1], vals[2], vals[3], vals[4]};
 
     // Sort the array in place.
-    // [41,76,166,192,207]
     int i, j;
     for (i = 0; i < 5; i++) {
         int aTemp = valsToBeSorted[i];
