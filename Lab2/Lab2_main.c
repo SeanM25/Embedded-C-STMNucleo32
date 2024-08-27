@@ -1,7 +1,7 @@
 /*
  * Math is fun!!
  *
- * File:    Lab02_main.c
+ * File:    Lab2_main.c
  * Author:  nubby (jlee211@ucsc.edu)
  *
  * Created on August 13, 2024.
