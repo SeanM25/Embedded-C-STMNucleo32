@@ -5,6 +5,9 @@
 #include <stdio.h>
 #include <math.h>
 
+// User libraries.
+#include "BOARD.h"
+
 
 // **** Declare function prototypes here. ****
 double Add(double operand1, double operand2);
