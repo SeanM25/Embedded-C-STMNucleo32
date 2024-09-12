@@ -10,9 +10,6 @@
 #include <stdio.h>
 #include <math.h>
 
-// User libraries.
-#include "BOARD.h"
-
 
 // CalculatorRun() prototype.
 void CalculatorRun(void);
