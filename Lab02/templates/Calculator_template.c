@@ -1,5 +1,10 @@
-/*
+/**
+ * Add your description here.
  *
+ * @file
+ * @author
+ *
+ * @date
  */
 // Standard libraries.
 #include <stdio.h>
@@ -29,8 +34,6 @@ void CalculatorRun(void)
 
     while(1); 
 }
-
-
 
 /*******************************************************************************
  * Define the Add function here.
@@ -88,8 +91,8 @@ double Tangent(double operand)
 
 /*******************************************************************************
  * Define the Round function here.
- * In order to receive the extra credit your calculator MUST ALSO CORRECTLY
- * utilize this function.
+ * In order to receive the extra credit your calculator MUST CORRECTLY utilize
+ * this function.
  ******************************************************************************/
 double Round(double operand)
 {

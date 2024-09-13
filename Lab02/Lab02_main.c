@@ -24,7 +24,7 @@ int main(void)
     CalculatorRun();
 
     printf(
-        "Calculator has exited, must restart to perform more calculations.\r\n"
+        "Calculator has exited; restart to perform more calculations.\r\n"
     );
 
     BOARD_End();
