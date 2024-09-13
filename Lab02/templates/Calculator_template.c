@@ -81,7 +81,10 @@ double Divide(double operand1, double operand2)
 /*******************************************************************************
  * Define the Tangent function that takes input in degrees.
  ******************************************************************************/
-double Tangent
+double Tangent(double operand)
+{
+
+}
 
 /*******************************************************************************
  * Define the Round function here.
