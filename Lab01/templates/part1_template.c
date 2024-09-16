@@ -7,7 +7,7 @@
  * @date    January 1, 1970
  */
 // **** Include libraries up here. ****
-// Standard libraries
+// Standard libraries.
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -34,7 +34,7 @@ int main(void) {
         valsToBeSorted [j + 1] = aTemp;
     }
 
-    // Print out the array
+    // Print out the array.
     printf("[");
     for (i = 0; i < 4; i++) {
         printf("%d, ", valsToBeSorted[i]);
