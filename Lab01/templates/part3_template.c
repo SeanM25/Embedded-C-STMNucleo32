@@ -1,10 +1,10 @@
-/*
+/**
  * Hello, OLED!
  *
- * File:    part3.c
- * Author:  Roronoa Zoro (rorozoro3ucsc.edu)
+ * @file    part3.c
+ * @author  Roronoa Zoro (rorozoro3ucsc.edu)
  * 
- * Created on January 1, 1970.
+ * @date    January 1, 1970
  */
 // Standard libraries.
 #include <stdio.h>

@@ -1,10 +1,10 @@
-/*
+/**
  * A journey through the debugging and styling of C code.  
  *
- * File:    part1.c
- * Author:  Roronoa Zoro (rorozoro3@ucsc.edu)
+ * @file    part1.c
+ * @author  Roronoa Zoro (rorozoro3@ucsc.edu)
  * 
- * Created on January 1, 1970.
+ * @date    January 1, 1970
  */
 // **** Include libraries up here. ****
 // Standard libraries
