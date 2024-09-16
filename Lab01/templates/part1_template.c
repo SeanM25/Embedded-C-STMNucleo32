@@ -41,6 +41,8 @@ int main(void) {
     }
     printf("%d]\r\n", valsToBeSorted[i]);
 
+    // Sorted array: []
+
     /*
      * Returning from main() is bad form in embedded environments. So we
      * sit and spin.
