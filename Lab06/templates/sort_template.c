@@ -30,6 +30,7 @@ int main(void)
     ListItem* listToSort;
 
     // Do a timing test.
+    // TODO(nubby): Replace stopwatch with querying on device.
     printf("\nStarting stopwatch for selection sort...\n");
     listToSort = CreateUnsortedList();
     __asm("nop"); // Put a breakpoint on this line.
