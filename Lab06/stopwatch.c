@@ -47,8 +47,8 @@ int stop_benchmark() {
 
 void print_benchmark_results() {
   if (!start_cycle || !end_cycle) {
-    printf("ERROR: Please run benchmark before printing.");
-    return -1;
+    printf("ERROR: Please run benchmark before printing results!\r\n");
+    return;
   }
   uint64_t duration_cycles = end_cycle - start_cycle;
   double duration_ms = duration_cycles / CLOCKS_PER_SEC;
