@@ -48,7 +48,7 @@ char PWM_Init(void) {
         TIM_ClockConfigTypeDef sClockSourceConfig = {0};
         TIM_MasterConfigTypeDef sMasterConfig = {0};
 
-        uint32_t system_clock_freq = TIMERS_GetSystemClockFreq() / 1000000; // system clock freq in Mhz
+        uint32_t system_clock_freq = Timers_GetSystemClockFreq() / 1000000; // system clock freq in Mhz
         htim1.Instance = TIM1;
         htim1.Init.Prescaler = system_clock_freq - 1; // setting prescaler for 1 Mhz timer clock
         htim1.Init.CounterMode = TIM_COUNTERMODE_UP;

@@ -11,7 +11,7 @@
 
 #ifdef STM32F4
 #include <BOARD.h>
-#include <leds.h>
+#include <Leds.h>
 #else
 #include <stdlib.h>
 #include "BOARD.h"
@@ -84,7 +84,7 @@ void BOARD_Init() {
     /* Configure usb-UART2 @ 115200 baud */
     USART2_UART_Init();
 #ifdef STM32F4
-    LEDS_Init();
+    LEDs_Init();
 #endif  /*  STM32F4 */
     init_status = TRUE;
   }

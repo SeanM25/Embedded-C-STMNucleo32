@@ -1,8 +1,9 @@
 /*
- * File:   BOARD.h
- * Author: Adam Korycki
+ * @file    BOARD.h
+ * @author  Adam Korycki
+ * @author  nubby (jlee211@ucsc.edu)
  *
- * Created on September 3, 2023
+ * @date    3 Sep 2023
  */
 
 #ifndef BOARD_H
@@ -30,6 +31,13 @@
 #define USART_TX_GPIO_Port GPIOA
 #define USART_RX_Pin GPIO_PIN_3
 #define USART_RX_GPIO_Port GPIOA
+
+/**
+ * Helper macro definitions.
+ */
+#define SW5_STATE() HAL_GPIO_ReadPin(GPIOA, GPIO_PIN_6)
+#define SW6_STATE() HAL_GPIO_ReadPin(GPIOA, GPIO_PIN_7)
+#define SWITCH_STATES() (((SW5_STATE() << 1) + SW6_STATE()) & 0x03)
 
 /**
  * @function BOARD_Init(void)

@@ -1,14 +1,14 @@
-/*
- * File:   timers.c
- * Author: Adam Korycki
+/**
+ * @file    Timers.c
+ * @author  Adam Korycki
+ * @author  nubby (jlee211@ucsc.edu)
  *
- * Created on September 29, 2023
+ * @date 29 Sep 2023
  */
 
-#include <stdio.h>
 #include <stdlib.h>
 #include <stdint.h>
-#include "timers.h"
+#include "Timers.h"
 
 // Boolean defines for TRUE, FALSE, SUCCESS and ERROR
 #ifndef FALSE
@@ -26,18 +26,18 @@ static uint32_t us; //microsecond count
 static uint32_t ms; //millisecond count
 
 /**
- * @function TIMER_Init(void)
+ * @function Timers_Init(void)
  * @param None
  * @return SUCCESS or ERROR
  * @brief Initializes and starts the timer (TIM2) peripheral
  * @author Adam Korycki, 2023.09.29 */
-char TIMER_Init(void) {
+char Timers_Init(void) {
     if (init_status == FALSE) { // if TIM2 module has not been initialized
 #ifdef STM32F4
         TIM_ClockConfigTypeDef sClockSourceConfig = {0};
         TIM_MasterConfigTypeDef sMasterConfig = {0};
 
-        uint32_t system_clock_freq = TIMERS_GetSystemClockFreq() / 1000000; // system clock freq in Mhz
+        uint32_t system_clock_freq = Timers_GetSystemClockFreq() / 1000000; // system clock freq in Mhz
         htim2.Instance = TIM2;
         htim2.Init.Prescaler = system_clock_freq - 1; // setting prescaler for 1 Mhz timer clock
         htim2.Init.CounterMode = TIM_COUNTERMODE_UP;
@@ -68,22 +68,22 @@ char TIMER_Init(void) {
 }
 
 /**
- * @function TIMERS_GetMilliSeconds(void)
+ * @function Timers_GetMilliSeconds(void)
  * @param None
  * @return current millisecond count
  * @brief ^
  * @author Adam Korycki, 2023.09.29 */
-uint32_t TIMERS_GetMilliSeconds(void) {
+uint32_t Timers_GetMilliSeconds(void) {
     return ms;
 }
 
 /**
- * @function TIMERS_GetMicroSeconds(void)
+ * @function Timers_GetMicroSeconds(void)
  * @param None
  * @return current microsecond count
  * @brief ^
  * @author Adam Korycki, 2023.09.29 */
-uint32_t TIMERS_GetMicroSeconds(void) {
+uint32_t Timers_GetMicroSeconds(void) {
 #ifdef STM32F4
     return us + TIM2->CNT; // (ms*1000) + (current value of 1Mhz counter)
 #else
@@ -92,12 +92,12 @@ uint32_t TIMERS_GetMicroSeconds(void) {
 }
 
 /**
- * @function TIMERS_GetSystemClockFreq(void)
+ * @function Timers_GetSystemClockFreq(void)
  * @param None
  * @return frequnecy of system clock in hz
  * @brief ^
  * @author Adam Korycki, 2023.09.29 */
-uint32_t TIMERS_GetSystemClockFreq(void) {
+uint32_t Timers_GetSystemClockFreq(void) {
 #ifdef STM32F4
     return HAL_RCC_GetSysClockFreq();
 #else
@@ -105,36 +105,35 @@ uint32_t TIMERS_GetSystemClockFreq(void) {
 #endif  /*  STM32F4 */
 }
 
-/* timer callback */
-#ifdef STM32F4
-void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim) {
-    if (htim == &htim2) {
-        ms++;     // update millisecond count
-        us+=1000; // update microsecond count
-    }
-}
-#endif  /*  STM32F4 */
+/* NOTE: You will need to define your own timer callback following this formula:
+  void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim) {
+      if (htim == &htim2) {
+        // 1ms has passed, define actions here!
+      }
+  }
+ *
+ */
 
-//#define TIMERS_TEST
-#ifdef TIMERS_TEST // TIMERS TEST HARNESS
+//#define Timers_TEST
+#ifdef Timers_TEST // Timers TEST HARNESS
 //SUCCESS - printed microsecond and millisecond values are are around 100 ms apart
 
 #include <stdio.h>
 #include <stdlib.h>
 #include "BOARD.h"
-#include "timers.h"
+#include "Timers.h"
 
 
 int main(void) {
     BOARD_Init();
-    TIMER_Init();
+    Timers_Init();
 
-    uint32_t init_ms = TIMERS_GetMilliSeconds();
-    uint32_t init_us = TIMERS_GetMicroSeconds();
+    uint32_t init_ms = Timers_GetMilliSeconds();
+    uint32_t init_us = Timers_GetMicroSeconds();
     while(TRUE) {
-        printf("ms: %011d\r\nus: %011d\r\n\r\n", TIMERS_GetMilliSeconds()-init_ms, TIMERS_GetMicroSeconds()-init_us);
+        printf("ms: %011d\r\nus: %011d\r\n\r\n", Timers_GetMilliSeconds()-init_ms, Timers_GetMicroSeconds()-init_us);
 #ifdef STM32F4
-        // TODO(nubby): Add a dummy timer function to `timers.h`.
+        // TODO(nubby): Add a dummy timer function to `Timers.h`.
         // sleep(0.001)
         HAL_Delay(1);
 #endif  /*  STM32F4 */

@@ -75,7 +75,7 @@ void DelayMs(uint32_t ms);
 void OledHostInit(void)
 {
     BOARD_Init(); // init board and printf functionality
-    TIMER_Init(); // init timer module for delay functions
+    Timers_Init(); // init timer module for delay functions
     I2C_Init();   // init I2C module
 }
 
@@ -171,6 +171,6 @@ void OledDriverUpdateDisplay(void)
  * @param ms The number of milliseconds to block for.
  */
 void DelayMs(uint32_t ms) {
-    uint32_t curr_ms = TIMERS_GetMilliSeconds();
-    while ((TIMERS_GetMilliSeconds() - curr_ms) < ms);
+    uint32_t curr_ms = Timers_GetMilliSeconds();
+    while ((Timers_GetMilliSeconds() - curr_ms) < ms);
 }
