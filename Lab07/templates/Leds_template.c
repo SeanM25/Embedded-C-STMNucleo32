@@ -30,7 +30,7 @@ void LEDs_Init(void) {
     __HAL_RCC_GPIOC_CLK_ENABLE();
     __HAL_RCC_GPIOB_CLK_ENABLE();
 
-    //init GOIO output pins for leds
+    // Init GOIO output pins for LEDs.
     GPIO_InitTypeDef GPIO_InitStruct = {0};
     GPIO_InitStruct.Pin = GPIO_PIN_8|GPIO_PIN_9|GPIO_PIN_10|GPIO_PIN_11;
     GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
@@ -40,7 +40,7 @@ void LEDs_Init(void) {
     GPIO_InitStruct.Pin = GPIO_PIN_0|GPIO_PIN_1|GPIO_PIN_2|GPIO_PIN_3;
     HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
 #endif  /*  STM32F4 */
-    LEDs_Set(0x0); // reset leds
+    LEDs_Set(0x0); // Reset LEDs.
 }
 
 /**
@@ -57,10 +57,16 @@ void LEDs_Init(void) {
  */
 void LEDs_Set(char newPattern) {
 #ifdef STM32F4
-  /* Your code goes between here and the comment below: */
+    /***************************************************************************
+     * Your code goes in between this comment and the following one with
+     * asterisks.
+     **************************************************************************/
 
 
-  /* Your code goes between here and the comment above: */
+    /***************************************************************************
+     * Your code goes in between this comment and the preceding one with
+     * asterisks.
+     **************************************************************************/
 #endif  /*  STM32F4 */
 }
 
@@ -80,10 +86,16 @@ void LEDs_Set(char newPattern) {
 char LEDs_Get(void) {
     char led_state = 0x00;
 #ifdef STM32F4
-  /* Your code goes between here and the comment below: */
+    /***************************************************************************
+     * Your code goes in between this comment and the following one with
+     * asterisks.
+     **************************************************************************/
 
 
-  /* Your code goes between here and the comment above: */
+    /***************************************************************************
+     * Your code goes in between this comment and the preceding one with
+     * asterisks.
+     **************************************************************************/
 #endif  /*  STM32F4 */
     return led_state;
 }
