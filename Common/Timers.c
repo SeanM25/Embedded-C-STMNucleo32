@@ -30,69 +30,42 @@ static uint32_t ms; //millisecond count
  * @param None
  * @return SUCCESS or ERROR
  * @brief Initializes and starts the timer (TIM2) peripheral
- * @author Adam Korycki, 2023.09.29 */
+ */
 char Timers_Init(void) {
     if (init_status == FALSE) { // if TIM2 module has not been initialized
 #ifdef STM32F4
         TIM_ClockConfigTypeDef sClockSourceConfig = {0};
         TIM_MasterConfigTypeDef sMasterConfig = {0};
 
-        /* USER CODE BEGIN TIM2_Init 1 */
-
-        /* USER CODE END TIM2_Init 1 */
+        // Get the system clock freq in MHz.
+        uint32_t system_clock_freq = Timers_GetSystemClockFreq() / 1000000;
         htim2.Instance = TIM2;
-        htim2.Init.Prescaler = 21;
+        // Set the clock prescaler for 1 MHz timer clock.
+        htim2.Init.Prescaler = system_clock_freq - 1; 
         htim2.Init.CounterMode = TIM_COUNTERMODE_UP;
-        htim2.Init.Period = 4294967295;
-        htim2.Init.ClockDivision = TIM_CLOCKDIVISION_DIV4;
-        htim2.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
-        if (HAL_TIM_Base_Init(&htim2) != HAL_OK)
-        {
-          return ERROR;
-          //Error_Handler();
-        }
-        sClockSourceConfig.ClockSource = TIM_CLOCKSOURCE_INTERNAL;
-        if (HAL_TIM_ConfigClockSource(&htim2, &sClockSourceConfig) != HAL_OK)
-        {
-          return ERROR;
-          //Error_Handler();
-        }
-        sMasterConfig.MasterOutputTrigger = TIM_TRGO_RESET;
-        sMasterConfig.MasterSlaveMode = TIM_MASTERSLAVEMODE_DISABLE;
-        if (HAL_TIMEx_MasterConfigSynchronization(&htim2, &sMasterConfig) != HAL_OK)
-        {
-          return ERROR;
-          //Error_Handler();
-        }
-    /*
-        TIM_ClockConfigTypeDef sClockSourceConfig = {0};
-        TIM_MasterConfigTypeDef sMasterConfig = {0};
-
-        uint32_t system_clock_freq = Timers_GetSystemClockFreq() / 1000000; // system clock freq in Mhz
-        htim2.Instance = TIM2;
-        htim2.Init.Prescaler = system_clock_freq - 1; // setting prescaler for 1 Mhz timer clock
-        htim2.Init.CounterMode = TIM_COUNTERMODE_UP;
-        htim2.Init.Period = 999; //trigger interrupt every 1ms
+        // Trigger an interrupt every 1ms.
+        htim2.Init.Period = 1024; 
         htim2.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
         htim2.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
         if (HAL_TIM_Base_Init(&htim2) != HAL_OK)
         {
-            return ERROR;
+          return ERROR;
+          //Error_Handler();
         }
         sClockSourceConfig.ClockSource = TIM_CLOCKSOURCE_INTERNAL;
         if (HAL_TIM_ConfigClockSource(&htim2, &sClockSourceConfig) != HAL_OK)
         {
-            return ERROR;
+          return ERROR;
+          //Error_Handler();
         }
         sMasterConfig.MasterOutputTrigger = TIM_TRGO_RESET;
         sMasterConfig.MasterSlaveMode = TIM_MASTERSLAVEMODE_DISABLE;
         if (HAL_TIMEx_MasterConfigSynchronization(&htim2, &sMasterConfig) != HAL_OK)
         {
-            return ERROR;
+          return ERROR;
+          //Error_Handler();
         }
-
         HAL_TIM_Base_Start_IT(&htim2); // start interrupt
-        */
 #endif  /*  STM32F4 */
         init_status = TRUE;
     }

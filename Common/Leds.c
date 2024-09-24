@@ -22,16 +22,16 @@
  *      1) Use the appropriate SFRs to set each LED pin to "output" mode.
  *      2) Use the appropriate SFRs to set each LED pin's output value to 0 (low
  *         voltage). 
+ *
+ * You must call BOARD_Init() to set up the B and C GPIO clocks before calling
+ * this function.
+ *
  * After calling LEDs_Init(), the other functions in this file can be used to 
  * manipulate the LED bar.
  */
 void LEDs_Init(void) {
-    // Enable GPIO clocks for ports C and B.
 #ifdef STM32F4
-    //__HAL_RCC_GPIOC_CLK_ENABLE();
-    //__HAL_RCC_GPIOB_CLK_ENABLE();
-
-    //init GOIO output pins for leds
+    // Initialize GPIO output pins for LEDs.
     GPIO_InitTypeDef GPIO_InitStruct = {0};
     GPIO_InitStruct.Pin = GPIO_PIN_8|GPIO_PIN_9|GPIO_PIN_10|GPIO_PIN_11;
     GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
