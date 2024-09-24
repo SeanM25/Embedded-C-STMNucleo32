@@ -37,6 +37,37 @@ char Timers_Init(void) {
         TIM_ClockConfigTypeDef sClockSourceConfig = {0};
         TIM_MasterConfigTypeDef sMasterConfig = {0};
 
+        /* USER CODE BEGIN TIM2_Init 1 */
+
+        /* USER CODE END TIM2_Init 1 */
+        htim2.Instance = TIM2;
+        htim2.Init.Prescaler = 21;
+        htim2.Init.CounterMode = TIM_COUNTERMODE_UP;
+        htim2.Init.Period = 4294967295;
+        htim2.Init.ClockDivision = TIM_CLOCKDIVISION_DIV4;
+        htim2.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
+        if (HAL_TIM_Base_Init(&htim2) != HAL_OK)
+        {
+          return ERROR;
+          //Error_Handler();
+        }
+        sClockSourceConfig.ClockSource = TIM_CLOCKSOURCE_INTERNAL;
+        if (HAL_TIM_ConfigClockSource(&htim2, &sClockSourceConfig) != HAL_OK)
+        {
+          return ERROR;
+          //Error_Handler();
+        }
+        sMasterConfig.MasterOutputTrigger = TIM_TRGO_RESET;
+        sMasterConfig.MasterSlaveMode = TIM_MASTERSLAVEMODE_DISABLE;
+        if (HAL_TIMEx_MasterConfigSynchronization(&htim2, &sMasterConfig) != HAL_OK)
+        {
+          return ERROR;
+          //Error_Handler();
+        }
+    /*
+        TIM_ClockConfigTypeDef sClockSourceConfig = {0};
+        TIM_MasterConfigTypeDef sMasterConfig = {0};
+
         uint32_t system_clock_freq = Timers_GetSystemClockFreq() / 1000000; // system clock freq in Mhz
         htim2.Instance = TIM2;
         htim2.Init.Prescaler = system_clock_freq - 1; // setting prescaler for 1 Mhz timer clock
@@ -61,6 +92,7 @@ char Timers_Init(void) {
         }
 
         HAL_TIM_Base_Start_IT(&htim2); // start interrupt
+        */
 #endif  /*  STM32F4 */
         init_status = TRUE;
     }

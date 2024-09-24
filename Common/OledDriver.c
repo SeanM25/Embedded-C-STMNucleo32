@@ -14,7 +14,7 @@
 #include "BOARD.h"
 #include "I2C.h"
 #include "OledDriver.h"
-#include "timers.h"
+#include "Timers.h"
 
 #define OLED_ADDRESS 0x3C // I2C address for Oled device
 
