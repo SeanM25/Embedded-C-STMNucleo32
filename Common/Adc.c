@@ -75,6 +75,23 @@ char ADC_Init(void) {
 }
 
 /**
+ * ADC_Read(ADC_HandleTypeDef* hadc)
+ */
+extern uint32_t ADC_Read(uint32_t channel)
+{
+    ADC_ChannelConfTypeDef sConfig = {0};
+    sConfig.Channel = channel;
+    sConfig.Rank = 1;
+    sConfig.SamplingTime = ADC_SAMPLETIME_3CYCLES;
+    if (HAL_ADC_ConfigChannel(&hadc1, &sConfig) != HAL_OK)
+    {
+      return ERROR;
+      //Error_Handler();
+    }
+    return(HAL_ADC_GetValue(&hadc1));
+}
+
+/**
  * ADC_End(void)
  *
  * @brief Disables the A/D subsystem and release the pins used
@@ -103,7 +120,7 @@ void ADC_End(void){
 
 struct ADC_result {
   uint32_t event;
-  int16_t voltage;
+  int32_t voltage;
 };
 
 static struct ADC_result adc_result = {FALSE, 0};
@@ -118,7 +135,7 @@ int main(void) {
 
   while(1<2) {
     if (adc_result.event) {
-      printf("Potentiometer reading: %d\r\n", (int)adc_result.voltage);
+      printf("Potentiometer reading: %d\r\n", adc_result.voltage);
       adc_result.event = FALSE;
       HAL_ADC_Start_IT(&hadc1);
     }
@@ -149,7 +166,7 @@ int main(void) {
  */
 void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef* hadc) {
   if (hadc == &hadc1) {
-    adc_result.voltage = HAL_ADC_GetValue(&hadc1);
+    adc_result.voltage = ADC_Read(&hadc1);
     adc_result.event = TRUE;
   }
 }
