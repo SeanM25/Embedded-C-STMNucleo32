@@ -16,6 +16,8 @@
 #include <stm32f4xx_hal_tim.h>
 
 TIM_HandleTypeDef htim2;
+TIM_HandleTypeDef htim3;
+TIM_HandleTypeDef htim4;
 #endif  /*  STM32F4 */
 
 /**

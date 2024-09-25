@@ -4,6 +4,9 @@
  * @author  nubby (jlee211@ucsc.edu)
  *
  * @date 29 Sep 2023
+ *
+ * TODO(nubby): Add individual timer config options.
+ * TODO(nubby): Make this macro-based rather than HAL.
  */
 
 #include <stdlib.h>
@@ -25,11 +28,22 @@ static uint8_t init_status = FALSE;
 static uint32_t us; //microsecond count
 static uint32_t ms; //millisecond count
 
+// TODO(nubby): Set these dynamically.
+static uint32_t IRQ_T_default = 999;  // T_interrupt in us, -1.
+static uint32_t IRQ_T_100Hz = 9999;
+static uint32_t IRQ_T_5Hz = 1999999;
+
+// TODO(nubby): Set these.
+static uint8_t TIM2_Priority = 0;
+static uint8_t TIM3_Priority = 1;
+static uint8_t TIM4_Priority = 2;
+
 /**
  * @function Timers_Init(void)
  * @param None
  * @return SUCCESS or ERROR
- * @brief Initializes and starts the timer (TIM2) peripheral
+ * @brief Initializes and starts all peripheral timers with a default interrupt
+ *        frequency.
  */
 char Timers_Init(void) {
     if (init_status == FALSE) { // if TIM2 module has not been initialized
@@ -39,12 +53,14 @@ char Timers_Init(void) {
 
         // Get the system clock freq in MHz.
         uint32_t system_clock_freq = Timers_GetSystemClockFreq() / 1000000;
+
+        // Setup for TIM2.
         htim2.Instance = TIM2;
         // Set the clock prescaler for 1 MHz timer clock.
         htim2.Init.Prescaler = system_clock_freq - 1; 
         htim2.Init.CounterMode = TIM_COUNTERMODE_UP;
-        // Trigger an interrupt every 1ms.
-        htim2.Init.Period = 1024; 
+        // Trigger an interrupt every IRQ period.
+        htim2.Init.Period = IRQ_T_default; 
         htim2.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
         htim2.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
         if (HAL_TIM_Base_Init(&htim2) != HAL_OK)
@@ -65,13 +81,73 @@ char Timers_Init(void) {
           return ERROR;
           //Error_Handler();
         }
+
+        // Setup for TIM3.
+        htim3.Instance = TIM3;
+        // Set the clock prescaler for 1 MHz timer clock.
+        htim3.Init.Prescaler = system_clock_freq - 1;
+        htim3.Init.CounterMode = TIM_COUNTERMODE_UP;
+        // Trigger an interrupt every IRQ period.
+        htim3.Init.Period = IRQ_T_100Hz;
+        htim3.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
+        htim3.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
+        if (HAL_TIM_Base_Init(&htim3) != HAL_OK)
+        {
+          return ERROR;
+          //Error_Handler();
+        }
+        sClockSourceConfig.ClockSource = TIM_CLOCKSOURCE_INTERNAL;
+        if (HAL_TIM_ConfigClockSource(&htim3, &sClockSourceConfig) != HAL_OK)
+        {
+          return ERROR;
+          //Error_Handler();
+        }
+        sMasterConfig.MasterOutputTrigger = TIM_TRGO_RESET;
+        sMasterConfig.MasterSlaveMode = TIM_MASTERSLAVEMODE_DISABLE;
+        if (HAL_TIMEx_MasterConfigSynchronization(&htim3, &sMasterConfig) != HAL_OK)
+        {
+          return ERROR;
+          //Error_Handler();
+        }
+
+        // Setup for TIM4.
+        htim4.Instance = TIM4;
+        // Set the clock prescaler for 1 MHz timer clock.
+        htim4.Init.Prescaler = system_clock_freq - 1;
+        htim4.Init.CounterMode = TIM_COUNTERMODE_UP;
+        // Trigger an interrupt every IRQ period.
+        htim4.Init.Period = IRQ_T_5Hz;
+        htim4.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
+        htim4.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
+        if (HAL_TIM_Base_Init(&htim4) != HAL_OK)
+        {
+          return ERROR;
+          //Error_Handler();
+        }
+        sClockSourceConfig.ClockSource = TIM_CLOCKSOURCE_INTERNAL;
+        if (HAL_TIM_ConfigClockSource(&htim4, &sClockSourceConfig) != HAL_OK)
+        {
+          return ERROR;
+          //Error_Handler();
+        }
+        sMasterConfig.MasterOutputTrigger = TIM_TRGO_RESET;
+        sMasterConfig.MasterSlaveMode = TIM_MASTERSLAVEMODE_DISABLE;
+        if (HAL_TIMEx_MasterConfigSynchronization(&htim4, &sMasterConfig) != HAL_OK)
+        {
+          return ERROR;
+          //Error_Handler();
+        }
+
         HAL_TIM_Base_Start_IT(&htim2); // start interrupt
+        HAL_TIM_Base_Start_IT(&htim3); // start interrupt
+        HAL_TIM_Base_Start_IT(&htim4); // start interrupt
 #endif  /*  STM32F4 */
         init_status = TRUE;
     }
     return SUCCESS;
 }
 
+// TODO(nubby): Refactor these to accept a Timer # param.
 /**
  * @function Timers_GetMilliSeconds(void)
  * @param None
@@ -110,10 +186,12 @@ uint32_t Timers_GetSystemClockFreq(void) {
 #endif  /*  STM32F4 */
 }
 
-/* NOTE: You will need to define your own timer callback following this formula:
+/**
+ * NOTE: You will need to define your own timer callback following this formula:
+ *
   void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim) {
       if (htim == &htim2) {
-        // 1ms has passed, define actions here!
+        // 1 IRQ period has passed, define actions here!
       }
   }
  *
