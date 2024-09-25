@@ -12,21 +12,21 @@
  * resultant output are either UpEvents or DownEvents corresponding to 
  * whether the button has been pushed-down or released.
  *
- * Be aware that the ButtonsInit() function exists for configuring the 
+ * Be aware that the Buttons_Init() function exists for configuring the 
  * appropriate pins on the STM32 processor and must be done before 
- * ButtonsCheckEvents() will work.
+ * Buttons_CheckEvents() will work.
  */
 
 #include <stdint.h>
 
 // We rely on this file to define various macros for working with the hardware
 // buttons.
-#include "BOARD.h"
+#include <BOARD.h>
 
 /**
  * Specify the minimum length of time between button events. This means that 
- * once ButtonsCheckEvents() returns an event for a particular button, no 
- * events for that button will be called until ButtonsCheckEvents() has been 
+ * once Buttons_CheckEvents() returns an event for a particular button, no 
+ * events for that button will be called until Buttons_CheckEvents() has been 
  * called 4 more times.
  */
 #define BUTTONS_DEBOUNCE_PERIOD 4
@@ -34,7 +34,7 @@
 /**
  * This enum{} lists all of the possible button events that could occur. Each 
  * event constants were chosen so that multiple button events can be recorded 
- * in a single call to ButtonsCheckEvents(). 
+ * in a single call to Buttons_CheckEvents(). 
  *
  * All possible event flags will also fit into a char datatype.  This is to 
  * handle the rare situation where two buttons change state simultaneously (or
@@ -56,22 +56,24 @@ typedef enum {
 
 /**
  * This function initializes the proper pins such that the buttons 1-4 may be 
- * used by modifying the necessary bits in TRISD/TRISF. Only the bits 
+ * used by modifying the necessary bits in GPIOC and GPIOD. Only the bits 
  * necessary to enable the 1-4 buttons are modified, so that this library 
  * does not interfere with other libraries.
+ *
+ * You will need to call BOARD_Init() before using this function.
  */
-void ButtonsInit(void);
+void Buttons_Init(void);
 
 /**
- * ButtonsCheckEvents function checks the current button states and returns
+ * Buttons_CheckEvents function checks the current button states and returns
  * any events that have occured since its last call.  This function should be 
  * called repeatedly in a Timer ISR, though it can be called in main() during 
  * testing.
  *
- * In normal use, this function should only be used after ButtonsInit().
+ * In normal use, this function should only be used after Buttons_Init().
  * 
  * This function should assume that the buttons start in an off state with value
- * 0. Therefore if no buttons are pressed when ButtonsCheckEvents() is first 
+ * 0. Therefore if no buttons are pressed when Buttons_CheckEvents() is first 
  * called, BUTTONS_EVENT_NONE should be returned. 
  * 
  * @return  Each bit of the return value corresponds to one ButtonEvent flag,
@@ -84,6 +86,6 @@ void ButtonsInit(void);
  * same time that button 2 was pressed, this function should return
  * (BUTTON_EVENT_1UP | BUTTON_EVENT_2DOWN).
  */
-uint8_t ButtonsCheckEvents(void);
+uint8_t Buttons_CheckEvents(void);
 
 #endif // BUTTONS_H

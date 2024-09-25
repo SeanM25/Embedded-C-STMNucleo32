@@ -30,13 +30,14 @@
 #define BUTTON3_POS_MASK (1<<2)
 #define BUTTON4_POS_MASK (1<<3)
 
-void ButtonsInit(void)
+void Buttons_Init(void)
 {
     // Enable pins PC4, PC5, PC6, and PD2 as inputs for buttons 1, 2, 3, and 4,
     // respectively.
     //
     // Each of these pins is also accessible via pin headers.
     //
+    GPIO_InitTypeDef GPIO_InitStruct = {0};
     /* Configure GPIO pins : GP_IN0_Pin GP_IN1_Pin GP_IN2_Pin */
     GPIO_InitStruct.Pin = GP_IN0_Pin|GP_IN1_Pin|GP_IN2_Pin;
     GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
@@ -50,7 +51,6 @@ void ButtonsInit(void)
     GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
     GPIO_InitStruct.Alternate = GPIO_AF2_TIM3;
     HAL_GPIO_Init(GPIOD, &GPIO_InitStruct);
-
 }
 
 /**
@@ -58,22 +58,22 @@ void ButtonsInit(void)
  * TODO(nubby): Convert this to a macro.
  *
  * @returns (uint8_t) A nibble (LSBs) representing the current state of each
- *                    button: "0 == "UP"; "1" == "DOWN".
+ *                    button: "0" == "UP"; "1" == "DOWN".
  */
 uint8_t BUTTON_STATES(void)
 {
   uint8_t b_state = 0;
-  b_state += HAL_GPIO_ReadPin(GPIOC, GP_IN0);
+  b_state += !HAL_GPIO_ReadPin(GPIOC, GP_IN0_Pin);
   b_state = b_state << 1;
-  b_state += HAL_GPIO_ReadPin(GPIOC, GP_IN1);
+  b_state += !HAL_GPIO_ReadPin(GPIOC, GP_IN1_Pin);
   b_state = b_state << 1;
-  b_state += HAL_GPIO_ReadPin(GPIOC, GP_IN2);
+  b_state += !HAL_GPIO_ReadPin(GPIOC, GP_IN2_Pin);
   b_state = b_state << 1;
-  b_state += HAL_GPIO_ReadPin(GPIOD, GPIO_PIN2);
+  b_state += !HAL_GPIO_ReadPin(GPIOD, GPIO_PIN_2);
   return b_state;
 }
 
-uint8_t ButtonsCheckEvents(void)
+uint8_t Buttons_CheckEvents(void)
 {
     // The states of all buttons are tracked over the last 4 samples. Only 
     // once a button is read as the same value over all 4 states does the 

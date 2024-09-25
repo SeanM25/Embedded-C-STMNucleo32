@@ -205,17 +205,27 @@ static void Board_GPIO_Init(void)
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
   HAL_GPIO_Init(NUCLEO_LED_GPIO_Port, &GPIO_InitStruct);
 
+#ifndef BUTTONS_H
+  /* Configure GPIO pins : GP_IN0_Pin GP_IN1_Pin GP_IN2_Pin */
+  GPIO_InitStruct.Pin = GP_IN0_Pin|GP_IN1_Pin|GP_IN2_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
+
+  /*Configure GPIO pin : PD2 */
+  GPIO_InitStruct.Pin = GPIO_PIN_2;
+  GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+  GPIO_InitStruct.Alternate = GPIO_AF2_TIM3;
+  HAL_GPIO_Init(GPIOD, &GPIO_InitStruct);
+#endif  /* BUTTONS_H  */
+
   /*Configure GPIO pins : GP_IN3_Pin GP_IN4_Pin */
   GPIO_InitStruct.Pin = GP_IN3_Pin|GP_IN4_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
-
-  /*Configure GPIO pins : GP_IN0_Pin GP_IN1_Pin GP_IN2_Pin */
-  GPIO_InitStruct.Pin = GP_IN0_Pin|GP_IN1_Pin|GP_IN2_Pin;
-  GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
-  GPIO_InitStruct.Pull = GPIO_NOPULL;
-  HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
 
   /*Configure GPIO pins : GP_LED4_Pin GP_LED5_Pin GP_LED6_Pin GP_LED7_Pin */
   GPIO_InitStruct.Pin = GP_LED4_Pin|GP_LED5_Pin|GP_LED6_Pin|GP_LED7_Pin;
@@ -270,14 +280,6 @@ static void Board_GPIO_Init(void)
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
   GPIO_InitStruct.Alternate = GPIO_AF7_USART1;
   HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
-
-  /*Configure GPIO pin : PD2 */
-  GPIO_InitStruct.Pin = GPIO_PIN_2;
-  GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
-  GPIO_InitStruct.Pull = GPIO_NOPULL;
-  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
-  GPIO_InitStruct.Alternate = GPIO_AF2_TIM3;
-  HAL_GPIO_Init(GPIOD, &GPIO_InitStruct);
 
   /*Configure GPIO pins : PB4 PB5 */
   GPIO_InitStruct.Pin = GPIO_PIN_4|GPIO_PIN_5;
