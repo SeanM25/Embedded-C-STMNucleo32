@@ -29,7 +29,7 @@ typedef struct {
 
 /* This function will update your OLED to reflect the state. */
 void updateOvenOLED(OvenData ovenData){
-    //update OLED here
+    // Update OLED here.
 }
 
 /* This function will execute your state machine.  
@@ -37,7 +37,7 @@ void updateOvenOLED(OvenData ovenData){
  */
 void runOvenSM(void)
 {
-    //write your SM logic here.
+    // Write your SM logic here.
 }
 
 
@@ -46,12 +46,13 @@ int main()
     BOARD_Init();
 
     printf(
-        "Welcome to CRUZID's Lab07 (Toaster Oven).  Compiled on %s %s.",
+        "Welcome to CRUZID's Lab08 (Toaster Oven)."
+        "Compiled on %s %s.\n\r",
         __TIME__,
         __DATE__
     );
 
-    //initialize state machine (and anything else you need to init) here
+    // Initialize state machine (and anything else you need to init) here.
 
     while(1) {
         // Add main loop code here:
@@ -63,7 +64,7 @@ int main()
 
 
 /**
- * This is where IRQs are handled.
+ * This is where ADC IRQs are handled.
  */
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef* htim)
 {
