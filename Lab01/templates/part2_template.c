@@ -11,11 +11,7 @@
 #include <stdlib.h>
 
 // Course libraries.
-#ifdef STM32F4      // This "ifdef" statement lets our code run on either
-#include <BOARD.h>  // the Nucleo board or from our dev environment.
-#else
-#include "BOARD.h"
-#endif  /*  STM32F4 */
+#include <BOARD.h>
 
 
 /**
