@@ -5,8 +5,6 @@
  *
  * @date 29 Sep 2023
  *
- * TODO(nubby): Add individual timer config options.
- * TODO(nubby): Make this macro-based rather than HAL.
  */
 
 #include <stdlib.h>
@@ -28,15 +26,10 @@ static uint8_t init_status = FALSE;
 static uint32_t us; //microsecond count
 static uint32_t ms; //millisecond count
 
-// TODO(nubby): Set these dynamically.
 static uint32_t IRQ_T_default = 999;  // T_interrupt in us, -1.
 static uint32_t IRQ_T_100Hz = 9999;
 static uint32_t IRQ_T_5Hz = 1999999;
 
-// TODO(nubby): Set these.
-static uint8_t TIM2_Priority = 0;
-static uint8_t TIM3_Priority = 1;
-static uint8_t TIM4_Priority = 2;
 
 /**
  * @function Timers_Init(void)
