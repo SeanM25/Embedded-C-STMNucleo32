@@ -1,13 +1,23 @@
+/**
+ * @file    FieldOled.c
+ *
+ * @author  Steve McGuire
+ * @author  nubby (jlee211@ucsc.edu)
+ * @date    24 Sep 2024
+ */
 
+#include <Ascii.h>
+#include <Oled.h>
+#include <OledDriver.h>
 
-#include "Oled.h"
-#include "OledDriver.h"
 #include "Field.h"
 #include "FieldOled.h"
-#include "Ascii.h"
+
 
 #define FIELD_SYMBOL_WIDTH 3
 #define FIELD_SYMBOL_HEIGHT 4
+
+
 const uint8_t gridSymbols[10][FIELD_SYMBOL_WIDTH] = {
     [FIELD_SQUARE_EMPTY] =
     {
