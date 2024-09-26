@@ -15,8 +15,8 @@
 #include <Oled.h>
 
 
-/*
- *
+/**
+ * This time with an OLED screen.
  */
 int main(void) {
     BOARD_Init();

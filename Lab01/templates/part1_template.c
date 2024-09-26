@@ -1,5 +1,5 @@
 /**
- * A journey through the debugging and styling of C code.  
+ * A brief journey through the debugging and styling of C code.  
  *
  * @file    part1.c
  * @author  Roronoa Zoro (rorozoro3@ucsc.edu)
@@ -14,8 +14,22 @@
 // Course libraries.
 #include <BOARD.h>
 
-/*
+
+/**
+ * main()
+ * 
+ * Put some information about this function here.
  *
+ * @return (int) Describe what is returned by a function here. In this case,
+ *               the int 0 is returned to indicate successful program execution.
+ *
+ *               NOTE: In C, the main() function does this implicitly so you
+ *                     can skip the "@return" portion of this description, as
+ *                     well as omit the "return" statement on the last line
+ *                     of this function.
+ *               
+ *               NOTE: You can also omit the title of "main()" above since there
+ *                     can only be one "main()" function per program.
  */
 int main(void) {
     BOARD_Init();
@@ -48,4 +62,6 @@ int main(void) {
      * sit and spin.
      */
     while(1<2);
+    BOARD_End();
+    return 0;
 }
