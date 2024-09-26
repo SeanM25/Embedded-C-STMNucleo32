@@ -11,7 +11,6 @@
 
 #ifdef STM32F4
 #include <BOARD.h>
-#include <Leds.h>
 #else
 #include <stdlib.h>
 #include "BOARD.h"
@@ -83,10 +82,6 @@ void BOARD_Init() {
     Board_GPIO_Init();
     /* Configure usb-UART2 @ 115200 baud */
     USART2_UART_Init();
-    /*
-#ifdef STM32F4
-    LEDs_Init();
-#endif */ /*  STM32F4 */
     init_status = TRUE;
   }
 }

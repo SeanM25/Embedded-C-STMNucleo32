@@ -1,9 +1,11 @@
-// TODO(nubby): Convert this into an interrupt-driven ADC module.
-/*
- * @file   Adc.c
- * @author Adam Korycki
+/**
+ * Configure and read from ADC channels using the UCSC Nucleo I/O shield.
  *
- * @date 16 Sep 2023
+ * @file    Adc.c
+ * @author  nubby (jlee211@ucsc.edu)
+ * @author  Adam Korycki
+ *
+ * @date    16 Sep 2023
  */
 
 #include <stdio.h>
@@ -53,7 +55,6 @@ char ADC_Init(void) {
     hadc1.Init.EOCSelection = ADC_EOC_SINGLE_CONV;
     if (HAL_ADC_Init(&hadc1) != HAL_OK)
     {
-      //Error_Handler();
       return ERROR;
     }
 
@@ -65,30 +66,15 @@ char ADC_Init(void) {
     sConfig.SamplingTime = ADC_SAMPLETIME_3CYCLES;
     if (HAL_ADC_ConfigChannel(&hadc1, &sConfig) != HAL_OK)
     {
-      //Error_Handler();
       return ERROR;
     }
+    
+    // Start the ADC interrupt.
+    HAL_ADC_Start_IT(&hadc1);
 #endif  /*  STM32F4 */
     init_status = TRUE;
   }
 	return SUCCESS;
-}
-
-/**
- * ADC_Read(ADC_HandleTypeDef* hadc)
- */
-extern uint32_t ADC_Read(uint32_t channel)
-{
-    ADC_ChannelConfTypeDef sConfig = {0};
-    sConfig.Channel = channel;
-    sConfig.Rank = 1;
-    sConfig.SamplingTime = ADC_SAMPLETIME_3CYCLES;
-    if (HAL_ADC_ConfigChannel(&hadc1, &sConfig) != HAL_OK)
-    {
-      return ERROR;
-      //Error_Handler();
-    }
-    return(HAL_ADC_GetValue(&hadc1));
 }
 
 /**
@@ -98,77 +84,8 @@ extern uint32_t ADC_Read(uint32_t channel)
  */
 void ADC_End(void){
 #ifdef STM32F4
-  /*
-	HAL_ADC_Stop(&hadc1);
-  */
   HAL_ADC_Stop_IT(&hadc1);
 	HAL_ADC_DeInit(&hadc1);
 #endif  /*  STM32F4 */
 }
 
-/*
-*/
-
-//#define ADC_TEST
-#ifdef ADC_TEST //ADC TEST HARNESS
-// SUCCESS - printed analog values for each channel are correct
-
-#include <stdio.h>
-#include "BOARD.h"
-#include "ADC.h"
-
-
-struct ADC_result {
-  uint32_t event;
-  int32_t voltage;
-};
-
-static struct ADC_result adc_result = {FALSE, 0};
-
-
-int main(void) {
-  // Initialize.
-	BOARD_Init();
-	if (!ADC_Init()) {
-    return ERROR;
-  }
-
-  while(1<2) {
-    if (adc_result.event) {
-      printf("Potentiometer reading: %d\r\n", adc_result.voltage);
-      adc_result.event = FALSE;
-      HAL_ADC_Start_IT(&hadc1);
-    }
-    HAL_Delay(200);
-    /*
-			printf("POT   = %d\r\n", ADC_Read(POT));
-			printf("ADC_0 = %d\r\n", ADC_Read(ADC_0));
-			printf("ADC_1 = %d\r\n", ADC_Read(ADC_1));
-			printf("ADC_2 = %d\r\n", ADC_Read(ADC_2));
-			printf("ADC_3 = %d\r\n", ADC_Read(ADC_3));
-			printf("ADC_4 = %d\r\n", ADC_Read(ADC_4));
-			printf("ADC_5 = %d\r\n\r\n", ADC_Read(ADC_5));
-//#ifdef STM32F4
-      // TODO(nubby): Add a dummy timer function to `timers.h`.
-      // sleep(0.5)
-			HAL_Delay(500);
-      */
-//#endif  /*  STM32F4 */
-  }
-}
-
-
-/**
- * HAL_ADC_ConvCpltCallback()
- *
- * @brief Callback to reading ADC data on change. This is required for an
- *        interrupt-driven ADC.
- */
-void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef* hadc) {
-  if (hadc == &hadc1) {
-    adc_result.voltage = ADC_Read(&hadc1);
-    adc_result.event = TRUE;
-  }
-}
-
-#endif
