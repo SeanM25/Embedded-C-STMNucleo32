@@ -31,7 +31,7 @@ int main(void) {
      * asterisks.                                                              *
      **************************************************************************/
 
-    BOARD_End();    // Handles cleanup of the system;
     while(1);       // if embedded, we should never exit.
+    BOARD_End();    // Handles cleanup of the system.
 }
 
