@@ -2,7 +2,6 @@
  * @file    FieldOled.c
  *
  * @author  Steve McGuire
- * @author  nubby (jlee211@ucsc.edu)
  * @date    24 Sep 2024
  */
 
