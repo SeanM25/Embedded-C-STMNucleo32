@@ -1,0 +1,14 @@
+stages:
+  - build
+
+minimum:
+  stage: build
+  image: python
+  script:
+    - curl -OLs ${TESTING_BASE_URL}/${TESTING_QUARTER}/CIFileExistenceCheck.py    
+    - curl -OLs ${TESTING_BASE_URL}/${TESTING_QUARTER}/massPullOptions.cfg
+    - curl -OLs ${TESTING_BASE_URL}/${TESTING_QUARTER}/currentLab    
+    - python3 CIFileExistenceCheck.py massPullOptions.cfg currentLab
+  artifacts:
+    expire_in: 1 week
+
