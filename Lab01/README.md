@@ -1,4 +1,4 @@
-@ author <Sean_Manger> (<smanger>@ucsc.edu)
+Author: <Sean_Manger> (smanger@ucsc.edu)
 
 Collaborators:
 
