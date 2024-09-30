@@ -7,9 +7,9 @@ minimum:
   script:
     - echo ${TESTING_BASE_URL}
     - echo ${TESTING_QUARTER}
-    - curl -OLs ${TESTING_BASE_URL}/${TESTING_QUARTER}/CIFileExistenceCheck.py    
-    - curl -OLs ${TESTING_BASE_URL}/${TESTING_QUARTER}/massPullOptions.cfg
-    - curl -OLs ${TESTING_BASE_URL}/${TESTING_QUARTER}/currentLab    
+    - curl -O ${TESTING_BASE_URL}/${TESTING_QUARTER}/CIFileExistenceCheck.py    
+    - curl -O ${TESTING_BASE_URL}/${TESTING_QUARTER}/massPullOptions.cfg
+    - curl -O ${TESTING_BASE_URL}/${TESTING_QUARTER}/currentLab    
     - python3 CIFileExistenceCheck.py massPullOptions.cfg currentLab
   artifacts:
     expire_in: 1 week
