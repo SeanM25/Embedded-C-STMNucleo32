@@ -5,9 +5,13 @@ minimum:
   stage: build
   image: python
   script:
-    - curl -OLs ${TESTING_BASE_URL}/${TESTING_QUARTER}/CIFileExistenceCheck.py    
-    - curl -OLs ${TESTING_BASE_URL}/${TESTING_QUARTER}/massPullOptions.cfg
-    - curl -OLs ${TESTING_BASE_URL}/${TESTING_QUARTER}/currentLab    
+    - export
+    - echo ${TESTING_BASE_URL}
+    - echo ${TESTING_QUARTER}
+    - curl -O http://ece13-grading.acad.ucsc.edu/cicd/fall2024/CIFileExistenceCheck.py
+    - curl -O ${TESTING_BASE_URL}/${TESTING_QUARTER}/CIFileExistenceCheck.py    
+    - curl -O ${TESTING_BASE_URL}/${TESTING_QUARTER}/massPullOptions.cfg
+    - curl -O ${TESTING_BASE_URL}/${TESTING_QUARTER}/currentLab    
     - python3 CIFileExistenceCheck.py massPullOptions.cfg currentLab
   artifacts:
     expire_in: 1 week
