@@ -21,7 +21,7 @@ int main(void)
     BOARD_Init();
     while (1)
     {
-    
+
         // Declare variables.
         float fahr, celsius;
 
