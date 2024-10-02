@@ -21,11 +21,7 @@ int main(void)
     BOARD_Init();
     while (1)
     {
-        /***********************************************************************
-         * Your code goes in between this comment and the following one with   *
-         * asterisks.                                                          *
-         **********************************************************************/
-
+    
         // Declare variables.
         float fahr, celsius;
 
@@ -69,10 +65,6 @@ int main(void)
             kelv = kelv + step;
         }
 
-        /***********************************************************************
-         * Your code goes in between this comment and the preceding one with   *
-         * asterisks.                                                          *
-         **********************************************************************/
         HAL_Delay(3333);
     }
     // Returning from main() is bad form in embedded environments.

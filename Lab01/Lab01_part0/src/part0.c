@@ -14,12 +14,13 @@
 /**
  * Hello Nucleo!
  */
-int main(void) {
- BOARD_Init();
- while(1) // In embedded systems, main should never exit.
- {
- printf("Hello World!\r\n");
- HAL_Delay(333); // Add a delay, in ms, before the next iteration.
- }
- BOARD_End(); // Handles cleanup of the system.
+int main(void)
+{
+    BOARD_Init();
+     while(1) // In embedded systems, main should never exit.
+    {
+    printf("Hello World!\r\n");
+    HAL_Delay(333); // Add a delay, in ms, before the next iteration.
+                 }
+    BOARD_End();    // Handles cleanup of the system.
 }
