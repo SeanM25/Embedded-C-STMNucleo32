@@ -5,6 +5,8 @@ minimum:
   stage: build
   image: python
   script:
+    - echo "Current datetime on server:"
+    - date
     - curl -Os http://ece13-grading.acad.ucsc.edu/cicd/fall2024/CIFileExistenceCheck.py
     - curl -Os ${TESTING_BASE_URL}/${TESTING_QUARTER}/CIFileExistenceCheck.py    
     - curl -Os ${TESTING_BASE_URL}/${TESTING_QUARTER}/massPullOptions.cfg
