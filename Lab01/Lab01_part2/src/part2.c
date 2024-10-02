@@ -2,9 +2,9 @@
  * Convert temperatures from Fahrenheit to Celsius and Kelvin.
  *
  * @file    part2.c
- * @author  Roronoa Zoro (rorozoro3ucsc.edu)
+ * @author  Sean Manger (smanger@ucsc.edu)
  *
- * @date    January 1, 1970
+ * @date    Sept 29, 2024
  */
 // Standard libraries.
 #include <stdio.h>
