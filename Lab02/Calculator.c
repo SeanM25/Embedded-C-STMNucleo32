@@ -26,8 +26,7 @@ double FahrenheitToCelsius(double operand);
 double CelsiusToFarenheit(double operand);
 double Tangent(double operand);
 double AbsoluteValue(double operand);
-// Add more prototypes below.
-
+double Round(double operand);
 
 void CalculatorRun(void)
 {
@@ -52,20 +51,17 @@ while(1){
    
    printf("\nUser, Please Enter a Mathematical Operation you Desire to Perform (*, /, +, -, m, a, c, f, t, q, r) : ");
 
-   scanf(" %c", &user_OP);
+   scanf("%c", &user_OP);
 
-   //while(getchar() != '\n');
+   while(getchar() != '\n');
 
    if (user_OP == 'q'){ 
 
     break;
-   }
+   }else if (user_OP == '*' || user_OP == '/' || user_OP == '+' || user_OP == '-' || user_OP == 'm'){ // Binary Operations: Add, Sub, Mul, Div, Avg
 
 
-if (user_OP == '*' || user_OP == '/' || user_OP == '+' || user_OP == '-' || user_OP == 'm'){ // Binary Operations: Add, Sub, Mul, Div, Avg
-
-
-printf("Enter Your 1st Operand: ");
+printf("\nEnter Your 1st Operand: ");
 
 while(scanf("%lf", &oper_1) != 1){
 
@@ -89,7 +85,7 @@ while(getchar() != '\n');
 
         result = Multiply(oper_1, oper_2);
 
-        printf("\nResult of %lf * %lf = %lf\n", oper_1, oper_2, result);
+        printf("\nResult of Multiply (%lf * %lf) = %lf\n", oper_1, oper_2, result);
         
     } else if (user_OP == '/'){
 
@@ -97,11 +93,11 @@ while(getchar() != '\n');
 
         if(result == HUGE_VAL){
 
-           printf("\nError: You Cannot Divide By ZERO!\n");
+           printf("\nError: You Cannot Divide By Zero!\n");
 
         }else{
 
-        printf("\nResult of %lf / %lf = %lf\n", oper_1, oper_2, result);
+        printf("\nResult of Divide (%lf / %lf) = %lf\n", oper_1, oper_2, result);
 
     }
 
@@ -109,19 +105,19 @@ while(getchar() != '\n');
 
         result = Add(oper_1, oper_2);
 
-        printf("\nResult of %lf + %lf = %lf\n", oper_1, oper_2, result);
+        printf("\nResult of Add (%lf + %lf) = %lf\n", oper_1, oper_2, result);
 
     } else if (user_OP == '-'){
 
         result = Subtract(oper_1, oper_2);
 
-        printf("\nResult of %lf - %lf = %lf\n", oper_1, oper_2, result);
+        printf("\nResult of Subtract (%lf - %lf) = %lf\n", oper_1, oper_2, result);
 
     } else if (user_OP == 'm'){
 
         result = Average(oper_1, oper_2);
 
-        printf("\nAverage of Operands: (%lf + %lf) / 2 = %lf\n", oper_1, oper_2, result);
+        printf("\nAverage of (%lf & %lf) = %lf\n", oper_1, oper_2, result);
     }
 
 } else if (user_OP == 'a' || user_OP == 'c' || user_OP == 'f' || user_OP == 't' || user_OP == 'r'){ // Unary Functions: Abs, Cel, Far, Tan, Round
@@ -140,7 +136,7 @@ if(user_OP == 'a'){
 
 result = AbsoluteValue(oper_1);
 
-printf("\n|%lf is: %lf| = \n", oper_1, result);
+printf("\n|%lf| is = %lf \n", oper_1, result);
 
 }else if(user_OP == 'c'){
 
@@ -158,13 +154,20 @@ printf("(%lf deg C --> F): %lf", oper_1, result);
 
 result = Tangent(oper_1);
 
-printf("tan(%lf) = %lf", oper_1, result);
+printf("tan (%lf) = %lf", oper_1, result);
+
+}else if(user_OP == 'r'){
+
+result = Round(oper_1);
+
+printf("Round (%lf)",result);
+
 
 }
 
 }else{
 
-printf("Invalid Input");
+printf("Invalid Input Please Try Again");
 
 }
 }
@@ -267,7 +270,9 @@ return avg_RES;
  ******************************************************************************/
 double Tangent(double operand)
 {
-    double deg2rad = (M_PI / 180.0) * operand;
+   // double deg2rad = (M_PI / 180.0) * operand;
+
+   double deg2rad = Multiply((M_PI / 180.0), operand);
 
     double res_TAN = tan(deg2rad);
 
@@ -282,6 +287,29 @@ double Tangent(double operand)
  ******************************************************************************/
 double Round(double operand)
 {
+
+    double frac_part = AbsoluteValue(operand - (int) operand);
+
+    double amount_added = 1 - frac_part;
+
+    double round_RES;
+
+    if(frac_part >= 0.5 && operand <= 0){
+
+       round_RES = operand - amount_added;
+
+       return round_RES; 
+
+    }else if(frac_part >= 0.5 && operand >= 0){
+
+      round_RES = operand + amount_added;
+      
+      return round_RES;
+
+    }else{
+         
+         return (int) operand;
+    }
 
 }
 
