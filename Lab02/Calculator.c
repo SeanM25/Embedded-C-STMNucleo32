@@ -158,21 +158,21 @@ void CalculatorRun(void) // Gets User Input Repeatedly & Performs Calculator Log
 
                 result = FahrenheitToCelsius(oper_1); // result of FarenheitToCelcius()
 
-                printf("(%lf deg F --> C): %lf\n", oper_1, result); // Print result of FarenheitToCelcius()
+                printf("\n(%lf deg F --> C): %lf\n", oper_1, result); // Print result of FarenheitToCelcius()
             }
             else if (user_OP == 'f')
             { // If user desires Farenheit call CelciusToFarenheit()
 
                 result = CelsiusToFarenheit(oper_1); // result of CelciusToFarenheit()
 
-                printf("(%lf deg C --> F): %lf\n", oper_1, result); // print result of CelciusToFarenheit
+                printf("\n(%lf deg C --> F): %lf\n", oper_1, result); // print result of CelciusToFarenheit
             }
             else if (user_OP == 't')
             { // If user desires tan call Tangent()
 
                 result = Tangent(oper_1); // result of Tangent()
 
-                printf("tan (%lf) = %lf", oper_1, result); // Print result of Tangent()
+                printf("\ntan (%lf) = %lf\n", oper_1, result); // Print result of Tangent()
             }
             else if (user_OP == 'r')
             { // If user desires rounding call Round()
