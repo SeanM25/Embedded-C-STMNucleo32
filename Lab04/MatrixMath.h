@@ -123,13 +123,13 @@ void MatrixMultiply(float mat1[3][3], float mat2[3][3], float result[3][3]);
 void MatrixScalarAdd(float x, float mat[3][3], float result[3][3]);
 
 /**
- * MatrixScalarAdd performs the multiplication of a matrix and a scalar.
+ * MatrixScalarMultiply performs the multiplication of a matrix and a scalar.
  * Each element of the matrix is multiplied x.
  * The result is "returned"by modifying the third argument.
  *
  * @param: x, a scalar float
  * @param: mat, pointer to a 3x3 matrix
- * @param: result, pointer to matrix that is modified to contain mat + x.
+ * @param: result, pointer to matrix that is modified to contain mat * x.
  *
  * @return: none
  *

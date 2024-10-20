@@ -42,7 +42,28 @@ return 1; // Return True
 
 }
 
+void MatrixScalarMultiply(float x, float mat[3][3], float result[3][3]){
 
+for(int r = 0; r < DIM; r++){
+
+    for(int c = 0; c < DIM; c++){
+
+
+        result[r][c] = (mat[r][c] * x);
+
+    }
+
+}
+}
+
+void MatrixScalarAdd(float x, float mat[3][3], float result[3][3]){
+
+
+
+
+
+    
+}
 
 
 
