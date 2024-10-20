@@ -17,6 +17,9 @@ float one_two_three_matrix[3][3] = {{1, 2, 3},{1, 2, 3},{1, 2, 3}};
 float tens_matrix[3][3] = {{10, 10, 10},{10, 10, 10},{10, 10, 10}};
 float tens_rnd_matrix[3][3] = {{9.999, 9.999, 9.999},{9.999, 9.999, 9.999},{9.999, 9.999, 9.999}};
 float neg_ninehun_matrix[3][3] = {{-999, -999, -999},{-999, -999, -999},{-999, -999, -999}};
+//float result_matrix_2[3][3] = {{0, 0, 0},{0, 0, 0},{0, 0, 0}};
+float rand_matrix_1 [3][3] = {{2, 4, 6}, {8, 10, 12}, {14, 16, 18}};
+float rand_matrix_2 [3][3] = {{3, 5, 7}, {9, 11, 13}, {15, 17, 19}};
 
 int main()
 {
@@ -94,9 +97,83 @@ MatrixScalarMultiply(t2, ones_matrix, result_matrix); // Perform test 2: ones_ma
 printf("\nPassed: (%d / 2) MatrixScalarMultiply()\n", scalar_mul_pass_cnt); // Display total number of passing tests
 
 
-/*MatrixScalarAdd() Tests*/
+/*MatrixMultiply() Tests*/
+
+int mtrx_mult_pass_cnt = 0;
+
+float mult_test1_res[3][3] = {{6, 12, 18},{6, 12, 18},{6, 12, 18}}; // one_two_three_matrix * one_two_three_matrix
+
+float mult_test2_res[3][3] = {{132, 156, 180},{294, 354, 414},{456, 552, 648}}; // rand_matrix_1 * rand_matrix_2
+
+MatrixMultiply(one_two_three_matrix, one_two_three_matrix, result_matrix);
+
+if(MatrixEquals(mult_test1_res, result_matrix) == 1){
+
+mtrx_mult_pass_cnt++;
+
+}
+
+MatrixMultiply(rand_matrix_1, rand_matrix_2, result_matrix);
+
+if(MatrixEquals(mult_test2_res, result_matrix) == 1){
+
+mtrx_mult_pass_cnt++;
+
+}
+
+printf("\nPassed: (%d / 2) MatrixMultiply()\n", mtrx_mult_pass_cnt);
 
 
+/* MatrixAdd() Tests*/
+
+int mtrx_add_pass_cnt = 0;
+
+float add_test_1_res[3][3] = {{2, 4, 6}, {2, 4, 6}, {2, 4, 6}};
+
+float add_test_2_res[3][3] = {{1, 1, 1}, {1, 1, 1}, {1, 1, 1}};
+
+MatrixAdd(one_two_three_matrix, one_two_three_matrix, result_matrix);
+
+if(MatrixEquals(add_test_1_res, result_matrix) == 1){
+
+mtrx_add_pass_cnt++;
+
+}
+
+MatrixAdd(zero_matrix, ones_matrix, result_matrix);
+
+if(MatrixEquals(add_test_2_res, result_matrix) == 1){
+
+    mtrx_add_pass_cnt++;
+
+}
+
+printf("\nPassed: (%d / 2) MatrixAdd()\n", mtrx_add_pass_cnt);
+
+
+/**/
+
+float scalar_add_test_1_res [3][3] = {{-1, -1, -1}, {-1, -1, -1}, {-1, -1, -1}};
+
+float scalar_add_test_2_res [3][3] = {{1.33, 1.33, 1.33}, {1.33, 1.33, 1.33}, {1.33, 1.33, 1.33}};
+
+int mtrx_add_scalar_pass_cnt = 0;
+
+MatrixScalarAdd(-1, zero_matrix, result_matrix);
+
+if(MatrixEquals(scalar_add_test_1_res, result_matrix) == 1){
+
+    mtrx_add_scalar_pass_cnt++;
+}
+
+MatrixScalarAdd(0.33, ones_matrix, result_matrix);
+
+if(MatrixEquals(scalar_add_test_2_res, result_matrix) == 1){
+
+    mtrx_add_scalar_pass_cnt++;
+}
+
+printf("\nPassed: (%d / 2) MatrixScalarAdd()\n", mtrx_add_scalar_pass_cnt);
 
     while (1);
 }

@@ -44,25 +44,59 @@ return 1; // Return True
 
 void MatrixScalarMultiply(float x, float mat[3][3], float result[3][3]){
 
-for(int r = 0; r < DIM; r++){
+for(int r = 0; r < DIM; r++){ // Go through the rows
 
-    for(int c = 0; c < DIM; c++){
+    for(int c = 0; c < DIM; c++){ // Go through the cols
 
-
-        result[r][c] = (mat[r][c] * x);
+        result[r][c] = (mat[r][c] * x); // Each indicies of mat is multiplied by 5 and stored in result
 
     }
 
 }
 }
 
+void MatrixMultiply(float mat1[3][3], float mat2[3][3], float result[3][3]){
+
+    for(int r = 0; r < DIM; r++){ // Go through the rows
+
+        for(int c = 0; c < DIM; c++){ // Go through the cols
+
+      result[r][c] = 0; // Make sure reuslt matrix is initialized to 0 to prevent errors
+
+            for(int pos = 0; pos < DIM; pos++){  // Need a third variable to keep track of row iterated down row in one matrix and down col in the other
+
+            result[r][c] = result[r][c] + (mat1[r][pos] * mat2[pos][c]); // Do matrix multiplication rows * cols & store in result
+
+        }
+        }
+    }    
+}
+
+void MatrixAdd(float mat1[3][3], float mat2[3][3], float result[3][3]){
+
+for (int r = 0; r < DIM; r++){
+
+    for(int c = 0; c < DIM; c++){
+
+result[r][c] = (mat1[r][c] + mat2[r][c]);
+
+    }
+}
+
+}
+
 void MatrixScalarAdd(float x, float mat[3][3], float result[3][3]){
 
+    for(int r = 0; r < DIM; r++){
+
+        for(int c = 0; c < DIM; c++){
+
+            result[r][c] = (mat[r][c] + x);
+        }
+    }
 
 
 
-
-    
 }
 
 
