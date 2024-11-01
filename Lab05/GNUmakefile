@@ -1,17 +1,34 @@
+# Makefile for ECE013 - Lab05
+#
+# @file		GNUmakefile
+# @author	Steve McGuire
+# @author	nubby	(jlee211@ucsc.edu)
+#
+# @date		21 Oct 2024
+
+## Defining variables in Makefiles
+#
+# Makefiles can easily become bulky and hard to read/edit. This is somewhat counter
+# to the purpose of Makefiles as tools that make code compilation, debugging, and 
+# cleanup easier. To improve code readability, you can define variables in any
+# Makefile with the following syntax:
+common=../Common
+include_dirs=-I$(common)
+
 all: Lab05
 
 Lab05: Lab05_main.c rpn.o stack.o
-	gcc -Wall Lab05_main.c rpn.o stack.o BOARD.c -o Lab05
+	gcc $(include_dirs) -Wall Lab05_main.c $(common)/BOARD.c rpn.o stack.o -o Lab05
 
 stack_test: stack_test.c stack.o 
-	gcc -Wall stack_test.c stack.o BOARD.c -o stack_test
+	gcc $(include_dirs) -Wall stack_test.c $(common)/BOARD.c stack.o -o stack_test
 
 rpn_test: rpn_test.c rpn.o stack.o
-	gcc -Wall rpn_test.c rpn.o stack.o BOARD.c -o rpn_test
+	gcc $(include_dirs) -Wall rpn_test.c $(common)/BOARD.c rpn.o stack.o -o rpn_test
 
 stack.o: stack.c
-	gcc -Wall -c stack.c
+	gcc $(include_dirs) -Wall -c stack.c
 
 rpn.o: rpn.c
-	gcc -Wall -c rpn.c
+	gcc $(include_dirs) -Wall -c rpn.c
 

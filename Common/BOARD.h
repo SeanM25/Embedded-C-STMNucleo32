@@ -21,8 +21,19 @@
 #endif
 #ifndef ERROR
 #define ERROR ((int8_t) -1)
+#endif
+// SUCCESS is defined and used by some of the framework files, so this is
+// safest.
+#ifndef SUCCESS
 #define SUCCESS ((int8_t) 1)
 #endif
+
+// More specific standard error definitions.
+enum {
+  SIZE_ERROR = -1,
+  STANDARD_ERROR = -1
+};
+
 
 /* minimum GPIO pin assocations for NUCLEO64*/
 /*

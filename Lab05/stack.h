@@ -82,7 +82,7 @@ int StackPop(struct Stack *stack, double *value);
 int StackIsEmpty(const struct Stack *stack);
 
 /**
- * This function checks for whether the stack is empty or not. For this simple
+ * This function checks for whether the stack is full or not. For this simple
  * implementation that is merely if the currentItemIndex == STACK_SIZE - 1. 
  * @param:  *stack, a pointer to a stack
  * @return: TRUE if the stack is full and FALSE if not.
