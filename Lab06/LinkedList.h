@@ -45,6 +45,21 @@ ListItem *LinkedListNew(char *data);
 
 /**
  * This function allocates a new ListItem containing data and inserts it into 
+ * the list directly before item. It rearranges the pointers of other elements 
+ * in the list to make this happen. If passed a NULL item, CreateBefore() 
+ * should still create a new ListItem, just with no nextItem. It returns 
+ * NULL if it can't malloc() a new ListItem, otherwise it returns a pointer 
+ * to the new item. The data parameter is also allowed to be NULL.
+ *
+ * @param item The ListItem that will be after the newly-created ListItem.
+ * @param data The data the new ListItem will point to.
+ *
+ * @return A pointer to the newly-malloc()'d ListItem.
+ */
+ListItem *LinkedListCreateBefore(ListItem *item, char *data);
+
+/**
+ * This function allocates a new ListItem containing data and inserts it into 
  * the list directly after item. It rearranges the pointers of other elements 
  * in the list to make this happen. If passed a NULL item, CreateAfter() 
  * should still create a new ListItem, just with no previousItem. It returns 
