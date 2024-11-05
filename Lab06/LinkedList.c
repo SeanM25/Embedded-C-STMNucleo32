@@ -1,4 +1,5 @@
 #include "LinkedList.h"
+#include "BOARD.h"
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -99,3 +100,114 @@ return new_item_after;
 
 
 }
+
+int LinkedListSize(ListItem *list){
+
+ const int list_index = 1;
+ 
+ int count_right = 0;  
+
+ int count_left = 0; 
+
+ListItem* go_right = list->nextItem;
+
+ListItem* go_left = list->previousItem;
+
+while(go_right != NULL){
+
+count_right++;
+
+go_right = go_right->nextItem;
+
+}
+
+while(go_left != NULL){
+
+count_left++;
+
+go_left = go_left->previousItem;
+
+}
+
+return count_right + count_left + list_index;
+
+}
+
+
+ListItem *LinkedListGetFirst(ListItem *list){
+
+ListItem* go_first = list;
+
+while(go_first != NULL && go_first->previousItem != NULL){
+
+go_first = go_first->previousItem;
+
+}
+
+return go_first;
+
+}
+
+ListItem *LinkedListGetLast(ListItem *list){
+
+    ListItem* go_last = list;
+
+while(go_last != NULL && go_last->nextItem != NULL){
+
+go_last = go_last->nextItem;
+
+}
+
+return go_last;
+
+
+}
+
+int LinkedListPrint(ListItem *list){
+
+if(list == NULL){
+
+    return STANDARD_ERROR;
+
+}else{
+
+ListItem* printer = LinkedListGetFirst(list);
+
+while(printer != NULL){
+
+printf("%s ", printer->data);
+
+printer = printer->nextItem;
+
+
+}
+
+printf("\n");
+
+return SUCCESS;
+
+
+}
+}
+
+int LinkedListSwapData(ListItem *firstItem, ListItem *secondItem){
+
+if(firstItem == NULL || secondItem == NULL){
+
+return STANDARD_ERROR;
+
+}
+
+char* first_item_data = firstItem->data;
+
+char* second_item_data = secondItem->data;
+
+secondItem->data = first_item_data;
+
+firstItem->data = second_item_data;
+
+return SUCCESS;
+
+}
+
+
