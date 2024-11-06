@@ -75,7 +75,7 @@ int main(void)
 #endif  /*  STM32F4 */
 
     printf(
-        "\r\n\r\nWelcome to CRUZID's Lab06_main.c,"
+        "\r\n\r\nWelcome to Sean Manger's (2088347) Lab06_main.c,"
         "compiled on %s %s.\r\n", __DATE__, __TIME__
     );
 
