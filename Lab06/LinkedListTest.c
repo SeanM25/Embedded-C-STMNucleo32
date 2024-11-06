@@ -49,7 +49,7 @@ ListItem* new_insertion = LinkedListCreateBefore(item,add_data[0]); // Insert Da
 
 if(new_insertion->data == add_data[0] && new_insertion->nextItem->data == ships_of_ww2[2]){ // Linked List is: Hornet <-> Enterprise
 
-pass_cnt_LL_b4++;
+pass_cnt_LL_b4++; // Increment test success
 
 }
 
@@ -61,7 +61,7 @@ char* data_btwn[] = {"PT-109"}; // Data to be inserted
 
 ListItem* item_3 = LinkedListCreateBefore(item_2,data_btwn[0]); // Hornet <-> PT-109 <-> Enterprise
 
-if(item_3->previousItem->data == add_data[0] && item_3->data == data_btwn[0] && item_3->nextItem->data == ships_of_ww2[2]){ // If LL is Hornet <-> PT-109 <-> Enterprise i.e. success
+if(item_3->previousItem->data == add_data[0] && item_3->data == data_btwn[0] && item_3->nextItem->data == ships_of_ww2[2] && item_1->data == add_data[0]){ // If LL is Hornet <-> PT-109 <-> Enterprise i.e. success
 
 pass_cnt_LL_b4++; // increment test success counter
 
@@ -125,6 +125,7 @@ printf("LinkedListSize() Passed (%d / 2) Tests!\n", size_pass); // Print number 
 
 // LinkedListGetFirst() Tests
 
+ListItem* null_elem = LinkedListNew(N[0]);
 
 ListItem* r_ship_1 = LinkedListNew(Red_Fleet_Pac[0]);
 
@@ -150,6 +151,9 @@ ListItem* first_elem_1 = LinkedListGetFirst(r_ship_3);
 
 ListItem* first_elem_2 = LinkedListGetFirst(r_ship_4_rev);
 
+ListItem* first_elem_3 = LinkedListGetFirst(null_elem);
+
+
 if(first_elem_1->data == r_ship_1->data){
 
     get_first_pass++;
@@ -161,7 +165,12 @@ if(first_elem_2->data == r_ship_4_rev->data){
 
 }
 
-printf("LinkedListGetFirst() Passed (%d / 2) Tests!\n", get_first_pass); // Print number of successful tests for LL get first
+if(first_elem_3->data == NULL){
+
+    get_first_pass++;
+}
+
+printf("LinkedListGetFirst() Passed (%d / 3) Tests!\n", get_first_pass); // Print number of successful tests for LL get first
 
 // LinkedListGetLast() Tests
 
@@ -170,6 +179,8 @@ int get_last_pass = 0;
 ListItem* last_elem_1 = LinkedListGetLast(r_ship_3);
 
 ListItem* last_elem_2 = LinkedListGetLast(r_ship_4_rev);
+
+ListItem* last_elem_3 = LinkedListGetLast(null_elem);
 
 if(last_elem_1->data == r_ship_4->data){
 
@@ -181,7 +192,12 @@ if(last_elem_2->data == r_ship_1_rev->data){
     get_last_pass++;
 }
 
-printf("LinkedListGetLast() Passed (%d / 2) Tests!\n", get_last_pass); // Print number of successful tests for LL get last
+if(last_elem_3->data == NULL){
+
+    get_last_pass++;
+}
+
+printf("LinkedListGetLast() Passed (%d / 3) Tests!\n", get_last_pass); // Print number of successful tests for LL get last
 
 
 // LinkedListSwapData() Tests
@@ -238,23 +254,53 @@ print_pass++;
 
 printf("LinkedListPrint() Passed (%d / 2) Tests!\n", print_pass); // Print number of successful tests for LL print
 
+// LinkedListRemove() Tests
+
+int remove_pass = 0;
+
+char* odds[] = {"1","3","5"};
+
+char* evens[] = {"2","4","6"};
+
+ListItem* odd_num_1 = LinkedListNew(odds[0]);
+
+ListItem* odd_num_2 = LinkedListCreateAfter(odd_num_1,odds[1]);
+
+ListItem* odd_num_3 = LinkedListCreateAfter(odd_num_2,odds[2]);
 
 
+ListItem* even_num_1 = LinkedListNew(evens[0]);
+
+ListItem* even_num_2 = LinkedListCreateAfter(even_num_1,evens[1]);
+
+ListItem* even_num_3 = LinkedListCreateAfter(even_num_2,evens[2]);
 
 
+int size_inital_1 = LinkedListSize(odd_num_2);
 
+int size_inital_2 = LinkedListSize(even_num_2);
 
+//LinkedListPrint(odd_num_1);
 
+char* result_rem_1 = LinkedListRemove(odd_num_2);
 
+char* result_rem_2 = LinkedListRemove(even_num_2);
 
+int size_after_1 = LinkedListSize(odd_num_1);
 
+int size_after_2 = LinkedListSize(even_num_1);
 
+if(result_rem_1 == odds[1] && size_after_1 == size_inital_1 - 1 && odd_num_3->data == odds[2]){
 
+    remove_pass++;
+}
 
+if(result_rem_2 == evens[1] && size_after_2 == size_inital_2 - 1 && even_num_3->data == evens[2]){
 
+    remove_pass++;
+}
 
-
-
+printf("LinkedListRemove() Passed (%d / 2) Tests!\n", remove_pass); // Print number of successful tests for LL remove
 
 
 }

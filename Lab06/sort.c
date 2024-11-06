@@ -24,7 +24,36 @@
  */
 ListItem *SelectionSort(ListItem* list)
 {
-   // YOUR CODE GOES HERE!
+
+ListItem* first_unsorted = list;
+
+ ListItem* scan;
+
+ while(first_unsorted->nextItem != NULL){
+
+    scan = first_unsorted->nextItem;
+
+    //printf("%s\n", scan->data);
+
+while(scan != NULL){
+
+   // char* str_1 = first_unsorted->data;
+
+    //char* str_2 = scan->data;
+
+    if (strcmp(first_unsorted->data, scan->data) > 0){
+
+            LinkedListSwapData(first_unsorted, scan);
+
+    }
+
+scan = scan->nextItem;
+
+}
+first_unsorted= first_unsorted->nextItem;
+ }
+
+return first_unsorted;
 }
 
 /**
@@ -41,7 +70,9 @@ ListItem *SelectionSort(ListItem* list)
  */
 ListItem *InsertionSort(ListItem* list)
 {
-   // YOUR CODE GOES HERE!
+
+
+
 }
 
 /**
@@ -56,6 +87,7 @@ ListItem *InsertionSort(ListItem* list)
  */
 ListItem *CreateUnsortedList(void)
 {
+    
     char* wordList[] = {
         "decide", "toothpaste", "lowly", "robin", "reign", "crowd", "pies",
         "reduce", "tendency", "surround", "finger", "rake", "alleged", "hug",
@@ -66,16 +98,22 @@ ListItem *CreateUnsortedList(void)
         "selective", NULL
     };
 
+    char* last_4_pres[] = {"D","C","B","A",NULL}; // {"George W. Bush", "Barack H. Obama", "Donald J. Trump", "Joseph R. Biden", NULL};          //{"D","C","B","A",NULL};
+        
+        //"George W. Bush", "Barack H. Obama", "Donald J. Trump", "Joseph R. Biden", NULL};
+
     int i = 0;
-    ListItem* head = LinkedListNew(wordList[i]);
+    ListItem* head = LinkedListNew(last_4_pres[i]);
     ListItem* tail = head;
-    for (i = 1; wordList[i] != NULL; i++) {
-        tail = LinkedListCreateAfter(tail, wordList[i]);
+    for (i = 1; last_4_pres[i] != NULL; i++) {
+        tail = LinkedListCreateAfter(tail, last_4_pres[i]);
         if (tail == NULL) {
           // If a NULL pointer is found, return NULL for the calling script to 
           // check.
           return NULL;
         }
+        
     }
     return head;
 }
+
