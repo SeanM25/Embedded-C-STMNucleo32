@@ -25,6 +25,8 @@
 ListItem *SelectionSort(ListItem* list)
 {
 
+const int zero = 0;
+
 ListItem* first_unsorted = list;
 
  ListItem* scan;
@@ -41,7 +43,7 @@ while(scan != NULL){
 
     //char* str_2 = scan->data;
 
-    if (strcmp(first_unsorted->data, scan->data) > 0){
+    if (strcmp(first_unsorted->data, scan->data) > zero){
 
             LinkedListSwapData(first_unsorted, scan);
 
@@ -71,7 +73,50 @@ return first_unsorted;
 ListItem *InsertionSort(ListItem* list)
 {
 
+const int zero = 0;
 
+ListItem* first_sorted = LinkedListGetLast(list);
+
+ListItem* scan;
+
+ListItem* unsorted;
+
+while(first_sorted->previousItem != NULL){
+
+unsorted = first_sorted->previousItem;
+
+if(strcmp(unsorted->data, first_sorted->data) < zero){
+
+first_sorted = unsorted;
+
+}else {
+
+scan = first_sorted;
+
+while(scan->nextItem != NULL){
+
+if(strcmp(scan->nextItem->data, unsorted->data) > zero){
+
+break;
+
+} else{
+
+scan = scan->nextItem;
+
+}
+
+
+}
+
+char* data = LinkedListRemove(unsorted);
+
+LinkedListCreateAfter(scan,data);
+
+}
+
+}
+
+return scan;
 
 }
 
@@ -98,15 +143,15 @@ ListItem *CreateUnsortedList(void)
         "selective", NULL
     };
 
-    char* last_4_pres[] = {"D","C","B","A",NULL}; // {"George W. Bush", "Barack H. Obama", "Donald J. Trump", "Joseph R. Biden", NULL};          //{"D","C","B","A",NULL};
+   // char* last_4_pres[] = {"D","C","B","A",NULL}; // {"George W. Bush", "Barack H. Obama", "Donald J. Trump", "Joseph R. Biden", NULL};          //{"D","C","B","A",NULL};
         
         //"George W. Bush", "Barack H. Obama", "Donald J. Trump", "Joseph R. Biden", NULL};
 
     int i = 0;
-    ListItem* head = LinkedListNew(last_4_pres[i]);
+    ListItem* head = LinkedListNew(wordList[i]);
     ListItem* tail = head;
-    for (i = 1; last_4_pres[i] != NULL; i++) {
-        tail = LinkedListCreateAfter(tail, last_4_pres[i]);
+    for (i = 1; wordList[i] != NULL; i++) {
+        tail = LinkedListCreateAfter(tail, wordList[i]);
         if (tail == NULL) {
           // If a NULL pointer is found, return NULL for the calling script to 
           // check.
