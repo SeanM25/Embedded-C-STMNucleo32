@@ -7,7 +7,7 @@
 # @date		23 Oct 2024
 
 # NOTE: You must edit this path to point to your common directory!
-include_dir = ../Common
+include_dir = ../../Common
 
 ## Compiler.
 CC := gcc

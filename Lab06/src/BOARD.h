@@ -31,7 +31,7 @@
 // More specific standard error definitions.
 enum {
   SIZE_ERROR = -1,
-  STANDARD_ERROR
+  STANDARD_ERROR = -1
 };
 
 

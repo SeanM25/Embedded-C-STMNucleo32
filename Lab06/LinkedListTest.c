@@ -2,305 +2,292 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-int main(){
+int main(void)
+{
 
-// LinkedListNew() Tests
+    // LinkedListNew() Tests
 
-int pass_cnt_new_LL = 0; // Counter for passed tests
+    int pass_cnt_new_LL = 0; // Counter for passed tests
 
-char *ships_of_ww2[]  = {"Bismarck", "Prinz Eugen", "Enterprise", "Yamato"}; // Some data to create linked lists with famous ww2 ships
+    char *ships_of_ww2[] = {"Bismarck", "Prinz Eugen", "Enterprise", "Yamato"}; // Some data to create linked lists with famous ww2 ships
 
-char *Red_Fleet_Pac[] = {"Varyag", "Admiral Kuznetsov","Red October","Sovershennyy"}; // More data examples: NATO names of ships of Russian Pacific Fleet 
+    char *R_Fleet_Pac[] = {"Varyag", "Admiral Kuznetsov", "Red October", "Sovershennyy"}; // More data examples: NATO names of ships of Russian Pacific Fleet
 
-char *N[] = {NULL}; // Data thats just a NULL pointer
+    char *N[] = {NULL}; // Data thats just a NULL pointer
 
+    ListItem *create_LL_test_1 = LinkedListNew(ships_of_ww2[0]); // Test creation of LL object that points to Bismarck
 
-ListItem* create_LL_test_1 = LinkedListNew(ships_of_ww2[0]); // Test creation of LL object that points to Bismarck
+    ListItem *create_LL_test_2 = LinkedListNew(N[0]); // Test creation of LL object that points to NULL
 
-ListItem* create_LL_test_2 = LinkedListNew(N[0]); // Test creation of LL object that points to NULL
+    if (create_LL_test_1->data == ships_of_ww2[0])
+    { // LL object points to "Bismarck" i.e. sucessful creation
 
-if(create_LL_test_1->data == ships_of_ww2[0]){ // LL object points to "Bismarck" i.e. sucessful creation
+        pass_cnt_new_LL++; // Increment test success counter
+    }
 
-pass_cnt_new_LL++; // Increment test success counter
+    if (create_LL_test_2->data == NULL)
+    { // LL object points to NULL i.e. sucessful creation
 
-}
+        pass_cnt_new_LL++; // Increment test success counter
+    }
 
-if(create_LL_test_2->data == NULL){ // LL object points to NULL i.e. sucessful creation
+    printf("LinkedListNew() Passed (%d / 2) Tests!\n", pass_cnt_new_LL); // Print number of successful tests
 
-pass_cnt_new_LL++; // Increment test success counter
+    // LinkedListCreateBefore() Tests
 
-}
+    int pass_cnt_LL_b4 = 0; // Test success counter
 
-printf("LinkedListNew() Passed (%d / 2) Tests!\n", pass_cnt_new_LL); // Print number of successful tests
+    ListItem *item = LinkedListNew(ships_of_ww2[2]); // Enterprise
 
+    char *add_data[] = {"Hornet"}; // New data to be inserted
 
+    ListItem *new_insertion = LinkedListCreateBefore(item, add_data[0]); // Insert Data
 
+    if (new_insertion->data == add_data[0] && new_insertion->nextItem->data == ships_of_ww2[2])
+    { // Linked List is: Hornet <-> Enterprise
 
-// LinkedListCreateBefore() Tests
+        pass_cnt_LL_b4++; // Increment test success
+    }
 
-int pass_cnt_LL_b4 = 0; // Test success counter
+    ListItem *item_2 = LinkedListNew(ships_of_ww2[2]); // LL: Enterprise
 
-ListItem* item = LinkedListNew(ships_of_ww2[2]); // Enterprise
+    ListItem *item_1 = LinkedListCreateBefore(item_2, add_data[0]); // Hornet <-> Enterprise
 
-char* add_data[] ={"Hornet"}; // New data to be inserted
+    char *data_btwn[] = {"PT-109"}; // Data to be inserted
 
-ListItem* new_insertion = LinkedListCreateBefore(item,add_data[0]); // Insert Data
+    ListItem *item_3 = LinkedListCreateBefore(item_2, data_btwn[0]); // Hornet <-> PT-109 <-> Enterprise
 
+    if (item_3->previousItem->data == add_data[0] && item_3->data == data_btwn[0] && item_3->nextItem->data == ships_of_ww2[2] && item_1->data == add_data[0])
+    { // If LL is Hornet <-> PT-109 <-> Enterprise i.e. success
 
-if(new_insertion->data == add_data[0] && new_insertion->nextItem->data == ships_of_ww2[2]){ // Linked List is: Hornet <-> Enterprise
+        pass_cnt_LL_b4++; // increment test success counter
+    }
 
-pass_cnt_LL_b4++; // Increment test success
+    printf("LinkedListCreateBefore() Passed (%d / 2) Tests!\n", pass_cnt_LL_b4); // Print number of successful tests for LL before
 
-}
+    // LinkedListCreateAfter() Tests
 
-ListItem* item_2 = LinkedListNew(ships_of_ww2[2]); // LL: Enterprise
+    int pass_cnt_LL_after = 0; // Initialize test success counter
 
-ListItem* item_1 = LinkedListCreateBefore(item_2,add_data[0]); // Hornet <-> Enterprise
+    ListItem *ship_1 = LinkedListNew(R_Fleet_Pac[0]); // Varyag
 
-char* data_btwn[] = {"PT-109"}; // Data to be inserted
+    ListItem *ship_2 = LinkedListCreateAfter(ship_1, R_Fleet_Pac[3]); // Varyag <-> Sovershennyy
 
-ListItem* item_3 = LinkedListCreateBefore(item_2,data_btwn[0]); // Hornet <-> PT-109 <-> Enterprise
+    if (ship_2->previousItem->data == R_Fleet_Pac[0] && ship_2->data == R_Fleet_Pac[3])
+    { // If the Linked List is  Varyag <-> Sovershennyy
 
-if(item_3->previousItem->data == add_data[0] && item_3->data == data_btwn[0] && item_3->nextItem->data == ships_of_ww2[2] && item_1->data == add_data[0]){ // If LL is Hornet <-> PT-109 <-> Enterprise i.e. success
+        pass_cnt_LL_after++; // Increment succss counter
+    }
 
-pass_cnt_LL_b4++; // increment test success counter
+    char *new_ship[] = {"Chelyabinsk"}; // Another ship to be added to linked list
 
-}
+    char *new_ship_2[] = {"Peter the Great"}; // Yet another ship to be added to linked list
 
-printf("LinkedListCreateBefore() Passed (%d / 2) Tests!\n", pass_cnt_LL_b4); // Print number of successful tests for LL before
+    ListItem *ship_btwn_12 = LinkedListCreateAfter(ship_1, new_ship[0]); // Varyag <-> Chelyabinsk <-> Sovershennyy
 
+    ListItem *forth_ship_added = LinkedListCreateAfter(ship_btwn_12, new_ship_2[0]); // Varyag <-> Chelyabinsk <-> Peter the Great <-> Sovershennyy
 
+    if (forth_ship_added->previousItem->data == ship_btwn_12->data && forth_ship_added->nextItem->data == R_Fleet_Pac[3])
+    { // If Varyag <-> Chelyabinsk <-> Peter the Great <-> Sovershennyy
 
-// LinkedListCreateAfter() Tests
+        pass_cnt_LL_after++; // Increment pass counter
+    }
 
-int pass_cnt_LL_after = 0;
+    printf("LinkedListCreateAfter() Passed (%d / 2) Tests!\n", pass_cnt_LL_after); // Print number of successful tests for LL after
 
-ListItem* ship_1 = LinkedListNew(Red_Fleet_Pac[0]); // Varyag
+    // LinkedListSize() Tests
 
-ListItem* ship_2 = LinkedListCreateAfter(ship_1,Red_Fleet_Pac[3]); // Varyag <-> Sovershennyy
+    int size_pass = 0; // Initialize counter
 
-if(ship_2->previousItem->data == Red_Fleet_Pac[0] && ship_2->data == Red_Fleet_Pac[3]){
+    int size_t1 = LinkedListSize(forth_ship_added); // actual size of LL
 
-pass_cnt_LL_after++;
+    int size_t2 = LinkedListSize(item_3); // Actual size of LL
 
-}
+    if (size_t1 == 4)
+    { // If actual is expected
 
-char* new_ship[] = {"Chelyabinsk"};
+        size_pass++; // increment success counter
+    }
 
-char* new_ship_2[] = {"Peter the Great"};
+    if (size_t2 == 3)
+    { // If actual is expected
 
-ListItem* ship_btwn_12 = LinkedListCreateAfter(ship_1, new_ship[0]);  // Varyag <-> Chelyabinsk <-> Sovershennyy
+        size_pass++; // increment success counter
+    }
 
-ListItem* forth_ship_added = LinkedListCreateAfter(ship_btwn_12, new_ship_2[0]); // Varyag <-> Chelyabinsk <-> Peter the Great <-> Sovershennyy
+    printf("LinkedListSize() Passed (%d / 2) Tests!\n", size_pass); // Print number of successful tests for LL size
 
-if(forth_ship_added->previousItem->data == ship_btwn_12->data && forth_ship_added->nextItem->data == Red_Fleet_Pac[3]){
+    // LinkedListGetFirst() Tests
 
-    pass_cnt_LL_after++;
-}
+    ListItem *null_elem = LinkedListNew(N[0]); // List item that is simply NULL
 
-printf("LinkedListCreateAfter() Passed (%d / 2) Tests!\n", pass_cnt_LL_after); // Print number of successful tests for LL after
+    ListItem *r_ship_1 = LinkedListNew(R_Fleet_Pac[0]); // Varyag
 
+    ListItem *r_ship_2 = LinkedListCreateAfter(r_ship_1, R_Fleet_Pac[1]); // Varyag Kutzesov
 
-// LinkedListSize() Tests
+    ListItem *r_ship_3 = LinkedListCreateAfter(r_ship_2, R_Fleet_Pac[2]); // Varyag Kutzesov Red October
 
-int size_pass = 0;
+    ListItem *r_ship_4 = LinkedListCreateAfter(r_ship_3, R_Fleet_Pac[3]); // Varyag Kutzesov Red October Sovershenny
 
-int size_t1 = LinkedListSize(forth_ship_added);
+    ListItem *r_ship_1_rev = LinkedListNew(R_Fleet_Pac[0]); // Varyag
 
-int size_t2 = LinkedListSize(item_3);
+    ListItem *r_ship_2_rev = LinkedListCreateBefore(r_ship_1_rev, R_Fleet_Pac[1]); // Kutzesov Varyag
 
-if(size_t1 == 4){
+    ListItem *r_ship_3_rev = LinkedListCreateBefore(r_ship_2_rev, R_Fleet_Pac[2]); // Red October Kutzesov Varyag
 
-size_pass++;
+    ListItem *r_ship_4_rev = LinkedListCreateBefore(r_ship_3_rev, R_Fleet_Pac[3]); // Sovershenny Red October Kutzesov Varyag
 
-}
+    int get_first_pass = 0; // Initialize success counter
 
-if(size_t2 == 3){
+    ListItem *first_elem_1 = LinkedListGetFirst(r_ship_3); // test 1 get first
 
-size_pass++;
+    ListItem *first_elem_2 = LinkedListGetFirst(r_ship_4_rev); // test 2 get first
 
-}
+    ListItem *first_elem_3 = LinkedListGetFirst(null_elem); // test 3 get first
 
-printf("LinkedListSize() Passed (%d / 2) Tests!\n", size_pass); // Print number of successful tests for LL size
+    if (first_elem_1->data == r_ship_1->data)
+    { // If GetFirst() is as expected
 
-// LinkedListGetFirst() Tests
+        get_first_pass++; // increment success counter
+    }
 
-ListItem* null_elem = LinkedListNew(N[0]);
+    if (first_elem_2->data == r_ship_4_rev->data)
+    { // If GetFirst() is as expected
 
-ListItem* r_ship_1 = LinkedListNew(Red_Fleet_Pac[0]);
+        get_first_pass++; // increment success counter
+    }
 
-ListItem* r_ship_2 = LinkedListCreateAfter(r_ship_1, Red_Fleet_Pac[1]);
+    if (first_elem_3->data == NULL)
+    { // Checking NULL funtionality
 
-ListItem* r_ship_3 = LinkedListCreateAfter(r_ship_2, Red_Fleet_Pac[2]);
+        get_first_pass++; // Increment success counter
+    }
 
-ListItem* r_ship_4 = LinkedListCreateAfter(r_ship_3, Red_Fleet_Pac[3]);
+    printf("LinkedListGetFirst() Passed (%d / 3) Tests!\n", get_first_pass); // Print number of successful tests for LL get first
 
+    // LinkedListGetLast() Tests
 
-ListItem* r_ship_1_rev = LinkedListNew(Red_Fleet_Pac[0]);
+    int get_last_pass = 0; // Initialize get last test counter
 
-ListItem* r_ship_2_rev = LinkedListCreateBefore(r_ship_1_rev, Red_Fleet_Pac[1]);
+    ListItem *last_elem_1 = LinkedListGetLast(r_ship_3); // get last test 1
 
-ListItem* r_ship_3_rev = LinkedListCreateBefore(r_ship_2_rev, Red_Fleet_Pac[2]);
+    ListItem *last_elem_2 = LinkedListGetLast(r_ship_4_rev); // get last test 2
 
-ListItem* r_ship_4_rev = LinkedListCreateBefore(r_ship_3_rev, Red_Fleet_Pac[3]);
+    ListItem *last_elem_3 = LinkedListGetLast(null_elem); // get last test 3
 
+    if (last_elem_1->data == r_ship_4->data)
+    { // if GetLast() is succesful
 
-int get_first_pass = 0;
+        get_last_pass++; // increment success counter
+    }
 
-ListItem* first_elem_1 = LinkedListGetFirst(r_ship_3);
+    if (last_elem_2->data == r_ship_1_rev->data)
+    { // if GetLast() is succesful
 
-ListItem* first_elem_2 = LinkedListGetFirst(r_ship_4_rev);
+        get_last_pass++; // increment success counter
+    }
 
-ListItem* first_elem_3 = LinkedListGetFirst(null_elem);
+    if (last_elem_3->data == NULL)
+    { // if GetLast() is succesful
 
+        get_last_pass++; // increment success counter
+    }
 
-if(first_elem_1->data == r_ship_1->data){
+    printf("LinkedListGetLast() Passed (%d / 3) Tests!\n", get_last_pass); // Print number of successful tests for LL get last
 
-    get_first_pass++;
-}
+    // LinkedListSwapData() Tests
 
-if(first_elem_2->data == r_ship_4_rev->data){
+    int swap_pass = 0;
 
- get_first_pass++;
+    ListItem *data_swap_1 = LinkedListNew(R_Fleet_Pac[0]); // Initially Varyag
 
-}
+    ListItem *data_swap_2 = LinkedListCreateAfter(data_swap_1, R_Fleet_Pac[3]); // Initally Sorvershenny
 
-if(first_elem_3->data == NULL){
+    ListItem *more_data_swap_1 = LinkedListNew(ships_of_ww2[3]); // Yamato initially
 
-    get_first_pass++;
-}
+    ListItem *more_data_swap_2 = LinkedListCreateAfter(more_data_swap_1, ships_of_ww2[1]); // Prinz Eugen Initially
 
-printf("LinkedListGetFirst() Passed (%d / 3) Tests!\n", get_first_pass); // Print number of successful tests for LL get first
+    LinkedListSwapData(data_swap_1, data_swap_2); // Swap Varyag & Sorvershenny
 
-// LinkedListGetLast() Tests
+    LinkedListSwapData(more_data_swap_1, more_data_swap_2); // Swap Yamato & Prinz Eugen
 
-int get_last_pass = 0;
+    if (data_swap_1->data == R_Fleet_Pac[3] && data_swap_2->data == R_Fleet_Pac[0])
+    { // If data was succesfully swapped
 
-ListItem* last_elem_1 = LinkedListGetLast(r_ship_3);
+        swap_pass++; // increment counter
+    }
 
-ListItem* last_elem_2 = LinkedListGetLast(r_ship_4_rev);
+    if (more_data_swap_1->data == ships_of_ww2[1] && more_data_swap_2->data == ships_of_ww2[3])
+    { // If the other data swap test was succesful
 
-ListItem* last_elem_3 = LinkedListGetLast(null_elem);
+        swap_pass++; // increment counter
+    }
 
-if(last_elem_1->data == r_ship_4->data){
+    printf("LinkedListSwap() Passed (%d / 2) Tests!\n", swap_pass); // Print number of successful tests for LL print
 
-    get_last_pass++;
-}
+    // LinkedListPrint() Tests
 
-if(last_elem_2->data == r_ship_1_rev->data){
+    int print_pass = 0; // printing success counter
 
-    get_last_pass++;
-}
+    printf("LinkedListPrint() Testing & Demonstation:\n"); // prepare to print
 
-if(last_elem_3->data == NULL){
+    if (LinkedListPrint(r_ship_3) == 1)
+    { // if printing was successful
 
-    get_last_pass++;
-}
+        print_pass++; // increment success counter
+    }
 
-printf("LinkedListGetLast() Passed (%d / 3) Tests!\n", get_last_pass); // Print number of successful tests for LL get last
+    if (LinkedListPrint(r_ship_3_rev) == 1)
+    { // if printing was successful
 
+        print_pass++; // increment success counter
+    }
 
-// LinkedListSwapData() Tests
+    printf("LinkedListPrint() Passed (%d / 2) Tests!\n", print_pass); // Print number of successful tests for LL print
 
-int swap_pass = 0;
+    // LinkedListRemove() Tests
 
-ListItem* data_swap_1 = LinkedListNew(Red_Fleet_Pac[0]); // Initially Varyag
+    int remove_pass = 0; // LinkedListRemove() pass counter
 
-ListItem* data_swap_2 = LinkedListCreateAfter(data_swap_1,Red_Fleet_Pac[3]); // Initally Sorvershenny
+    char *odds[] = {"1", "3", "5"}; // some odd numbers to test removal
 
-ListItem* more_data_swap_1 = LinkedListNew(ships_of_ww2[3]); // Yamato initially
+    char *evens[] = {"2", "4", "6"}; // some even numbers to test removal
 
-ListItem* more_data_swap_2 = LinkedListCreateAfter(more_data_swap_1,ships_of_ww2[1]); // Prinz Eugen Initially
+    ListItem *odd_num_1 = LinkedListNew(odds[0]);
 
+    ListItem *odd_num_2 = LinkedListCreateAfter(odd_num_1, odds[1]);
 
-LinkedListSwapData(data_swap_1,data_swap_2);
+    ListItem *odd_num_3 = LinkedListCreateAfter(odd_num_2, odds[2]); // 1 3 5 LL
 
-LinkedListSwapData(more_data_swap_1,more_data_swap_2);
+    ListItem *even_num_1 = LinkedListNew(evens[0]);
 
-if(data_swap_1->data == Red_Fleet_Pac[3] && data_swap_2->data == Red_Fleet_Pac[0]){
+    ListItem *even_num_2 = LinkedListCreateAfter(even_num_1, evens[1]);
 
-swap_pass++;
+    ListItem *even_num_3 = LinkedListCreateAfter(even_num_2, evens[2]); // 2 4 6 LL
 
-}
+    int size_inital_1 = LinkedListSize(odd_num_2); // initial size before removal
 
+    int size_inital_2 = LinkedListSize(even_num_2); // initial size before removal
 
-if(more_data_swap_1->data == ships_of_ww2[1] && more_data_swap_2->data == ships_of_ww2[3]){
+    char *result_rem_1 = LinkedListRemove(odd_num_2); // data removed
 
-swap_pass++;
+    char *result_rem_2 = LinkedListRemove(even_num_2); // data removed
 
-}
+    int size_after_1 = LinkedListSize(odd_num_1); // size after removal
 
+    int size_after_2 = LinkedListSize(even_num_1); // size after removal
 
-printf("LinkedListSwap() Passed (%d / 2) Tests!\n", swap_pass); // Print number of successful tests for LL print
+    if (result_rem_1 == odds[1] && size_after_1 == size_inital_1 - 1 && odd_num_3->data == odds[2])
+    {
 
+        remove_pass++; // increment success counter
+    }
 
-// LinkedListPrint() Tests
+    if (result_rem_2 == evens[1] && size_after_2 == size_inital_2 - 1 && even_num_3->data == evens[2])
+    {
 
-int print_pass = 0;
+        remove_pass++; // increment success counter
+    }
 
-printf("LinkedListPrint() Testing & Demonstation:\n");
-
-if(LinkedListPrint(r_ship_3) == 1){
-
-print_pass++;
-
-}
-
-if(LinkedListPrint(r_ship_3_rev) == 1){
-
-print_pass++;
-
-}
-
-printf("LinkedListPrint() Passed (%d / 2) Tests!\n", print_pass); // Print number of successful tests for LL print
-
-// LinkedListRemove() Tests
-
-int remove_pass = 0;
-
-char* odds[] = {"1","3","5"};
-
-char* evens[] = {"2","4","6"};
-
-ListItem* odd_num_1 = LinkedListNew(odds[0]);
-
-ListItem* odd_num_2 = LinkedListCreateAfter(odd_num_1,odds[1]);
-
-ListItem* odd_num_3 = LinkedListCreateAfter(odd_num_2,odds[2]);
-
-
-ListItem* even_num_1 = LinkedListNew(evens[0]);
-
-ListItem* even_num_2 = LinkedListCreateAfter(even_num_1,evens[1]);
-
-ListItem* even_num_3 = LinkedListCreateAfter(even_num_2,evens[2]);
-
-
-int size_inital_1 = LinkedListSize(odd_num_2);
-
-int size_inital_2 = LinkedListSize(even_num_2);
-
-//LinkedListPrint(odd_num_1);
-
-char* result_rem_1 = LinkedListRemove(odd_num_2);
-
-char* result_rem_2 = LinkedListRemove(even_num_2);
-
-int size_after_1 = LinkedListSize(odd_num_1);
-
-int size_after_2 = LinkedListSize(even_num_1);
-
-if(result_rem_1 == odds[1] && size_after_1 == size_inital_1 - 1 && odd_num_3->data == odds[2]){
-
-    remove_pass++;
-}
-
-if(result_rem_2 == evens[1] && size_after_2 == size_inital_2 - 1 && even_num_3->data == evens[2]){
-
-    remove_pass++;
-}
-
-printf("LinkedListRemove() Passed (%d / 2) Tests!\n", remove_pass); // Print number of successful tests for LL remove
-
-
+    printf("LinkedListRemove() Passed (%d / 2) Tests!\n", remove_pass); // Print number of successful tests for LL remove
 }
