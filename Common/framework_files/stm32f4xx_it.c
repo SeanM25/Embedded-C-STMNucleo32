@@ -204,7 +204,7 @@ void SysTick_Handler(void)
 /**
   * @brief This function handles ADC1 global interrupt.
   */
-void ADC_IRQHandler(void)
+__attribute__((weak)) void ADC_IRQHandler(void)
 {
   /* USER CODE BEGIN ADC_IRQn 0 */
 

@@ -31,7 +31,7 @@
 // More specific standard error definitions.
 enum {
   SIZE_ERROR = -1,
-  STANDARD_ERROR = -1
+  STANDARD_ERROR
 };
 
 
@@ -102,6 +102,25 @@ extern void BOARD_Init();
  * @brief Shuts down all peripherals except for serial and A/D. Turns all pins into input
  * @author Adam Korycki, 2023.09.03  */
 extern void BOARD_End();
+
+/**
+ * @function BUTTON_STATES(void)
+ * @param None
+ * @return uint8_t
+ *
+ * Provides a way to quickly get the status of all 4 push-buttons into 4 bits:
+ *  + 0 = button is released.
+ *  + 1 = button is pressed.
+ *
+ *  For example:
+ *
+ *  uint8_t buttonsState = BUTTON_STATES();
+ *  if (buttonsState & BUTTON_STATE_3) {
+ *    // Button 3 is pressed down.
+ *  }
+ */
+uint8_t BUTTON_STATES(void);
+
 
 #endif	/* BOARD_H */
 

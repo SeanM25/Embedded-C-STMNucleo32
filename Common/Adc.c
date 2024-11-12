@@ -20,6 +20,8 @@
 #endif
 #ifndef ERROR
 #define ERROR ((int8_t) -1)
+#endif
+#ifndef SUCCESS
 #define SUCCESS ((int8_t) 1)
 #endif
 

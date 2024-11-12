@@ -22,6 +22,7 @@
 // **** Declare any datatypes here ****
 
 // **** Define global, module-level, or external variables here ****
+volatile uint8_t buttonEvents; //Filled in by the Timer's ISR
 
 // **** Declare function prototypes ****
 
@@ -61,8 +62,7 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef* htim)
      * Your code goes in between this comment and the following one with 
      * asterisks.
      **************************************************************************/
-
-
+    buttonEvents = ButtonsCheckEvents();
 
     /***************************************************************************
      * Your code goes in between this comment and the preceding one with 

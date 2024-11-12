@@ -215,7 +215,7 @@ static void Board_GPIO_Init(void)
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
   HAL_GPIO_Init(NUCLEO_LED_GPIO_Port, &GPIO_InitStruct);
 
-#ifndef BUTTONS_H
+
   /* Configure GPIO pins : GP_IN0_Pin GP_IN1_Pin GP_IN2_Pin */
   GPIO_InitStruct.Pin = GP_IN0_Pin|GP_IN1_Pin|GP_IN2_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
@@ -229,7 +229,6 @@ static void Board_GPIO_Init(void)
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
   GPIO_InitStruct.Alternate = GPIO_AF2_TIM3;
   HAL_GPIO_Init(GPIOD, &GPIO_InitStruct);
-#endif  /* BUTTONS_H  */
 
   /*Configure GPIO pins : GP_IN3_Pin GP_IN4_Pin */
   GPIO_InitStruct.Pin = GP_IN3_Pin|GP_IN4_Pin;
@@ -340,6 +339,30 @@ static void Board_GPIO_Init(void)
   HAL_GPIO_Init(B1_GPIO_Port, &GPIO_InitStruct);
   */
 #endif  /* STM32F4 */
+}
+
+/**
+ * Provides a way to quickly get the status of all 4 push-buttons into 4 bits:
+ *  + 0 = button is released.
+ *  + 1 = button is pressed.
+ *
+ *  For example:
+ *
+ *  uint8_t buttonsState = BUTTON_STATES();
+ *  if (buttonsState & BUTTON_STATE_3) {
+ *    // Button 3 is pressed down.
+ *  }
+ */
+uint8_t BUTTON_STATES(void) {                           
+    uint8_t b_state = 0;                              
+    b_state += !HAL_GPIO_ReadPin(GPIOC, GP_IN0_Pin);  
+    b_state = b_state << 1;                           
+    b_state += !HAL_GPIO_ReadPin(GPIOC, GP_IN1_Pin);  
+    b_state = b_state << 1;                           
+    b_state += !HAL_GPIO_ReadPin(GPIOC, GP_IN2_Pin);  
+    b_state = b_state << 1;                           
+    b_state += !HAL_GPIO_ReadPin(GPIOD, GPIO_PIN_2);  
+    return b_state;                                   
 }
 
 /**

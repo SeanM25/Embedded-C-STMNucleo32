@@ -18,11 +18,17 @@
  */
 
 #include <stdint.h>
-#include <genericTypeDefs.h>
 
 // We rely on this file to define various macros for working with the hardware
 // buttons.
 #include "BOARD.h"
+
+enum ButtonStateFlags {
+    BUTTON_STATE_1 = 0x1,
+    BUTTON_STATE_2 = 0x2,
+    BUTTON_STATE_3 = 0x4,
+    BUTTON_STATE_4 = 0x8
+};
 
 /**
  * Specify the minimum length of time between button events. This means that 
@@ -57,9 +63,7 @@ typedef enum {
 
 /**
  * This function initializes the proper pins such that the buttons 1-4 may be 
- * used by modifying the necessary bits in TRISD/TRISF. Only the bits 
- * necessary to enable the 1-4 buttons are modified, so that this library 
- * does not interfere with other libraries.
+ * used as GPIO inputs. For ECE13, this is handled within Board_GPIO_Init().
  */
 void ButtonsInit(void);
 
