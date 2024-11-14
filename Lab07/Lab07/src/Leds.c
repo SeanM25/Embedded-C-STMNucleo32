@@ -15,6 +15,26 @@
 #include "stm32f4xx_hal.h"
 #endif  /*  STM32F4 */
 
+#define LED8 0x80
+
+#define LED7 0x40
+
+#define LED6 0x20
+
+#define LED5 0x10
+
+#define LED4 0x08
+
+#define LED3 0x04
+
+#define LED2 0x02
+
+#define LED1 0x01
+
+
+volatile char light_conf = 0; // Global char to return the light config in LedGet() made volitile to protect against possible unexpected changes
+
+
 /**
  * LEDs_Init() Initializes the LED bar by doing three things:
  *      1) Enables usage of the GPIO clocks for needed ports.
@@ -62,6 +82,100 @@ void LEDs_Set(char newPattern) {
      * asterisks.
      **************************************************************************/
 
+    light_conf = newPattern;
+
+
+// Perform bitwise and on each of the LED positions to see if they should be turned on or not
+
+    int res_LED1 = newPattern & LED1; 
+    int res_LED2 = newPattern & LED2;
+    int res_LED3 = newPattern & LED3;
+    int res_LED4 = newPattern & LED4;
+    int res_LED5 = newPattern & LED5;
+    int res_LED6 = newPattern & LED6;
+    int res_LED7 = newPattern & LED7;
+    int res_LED8 = newPattern & LED8;
+
+    if(res_LED1 == 0){ // If LED 1 should be off
+
+       HAL_GPIO_WritePin(GPIOC, GPIO_PIN_8, 0); // Keep it off
+
+   } else{
+
+       HAL_GPIO_WritePin(GPIOC, GPIO_PIN_8, 1); // Otherwise turn it on
+
+    }
+
+        if(res_LED2 == 0){ // If LED 2 should be off 
+
+       HAL_GPIO_WritePin(GPIOC, GPIO_PIN_9, 0); // Keep it off
+
+   } else{
+
+       HAL_GPIO_WritePin(GPIOC, GPIO_PIN_9, 1); // else turn on
+
+    }
+
+        if(res_LED3 == 0){ // If LED 3 should be off
+
+       HAL_GPIO_WritePin(GPIOC, GPIO_PIN_10, 0); // Keep it off
+
+   } else{
+
+       HAL_GPIO_WritePin(GPIOC, GPIO_PIN_10, 1); // otherwise turn it on
+
+    }
+
+        if(res_LED4 == 0){ // If LED 4 should be off
+
+       HAL_GPIO_WritePin(GPIOC, GPIO_PIN_11, 0); // Keep it off
+
+   } else{
+
+       HAL_GPIO_WritePin(GPIOC, GPIO_PIN_11, 1); // Otherwise turn it on
+
+    }
+
+        if(res_LED5 == 0){ // If LED 5 should be off
+
+       HAL_GPIO_WritePin(GPIOB, GPIO_PIN_0, 0); // Keep it off
+
+   } else{
+
+       HAL_GPIO_WritePin(GPIOB, GPIO_PIN_0, 1); // Otherwise turn it on
+
+    }
+
+            if(res_LED6 == 0){ // If LED 6 should be off
+
+       HAL_GPIO_WritePin(GPIOB, GPIO_PIN_1, 0); // Keep it off
+
+   } else{
+
+       HAL_GPIO_WritePin(GPIOB, GPIO_PIN_1, 1); // Otherwise turn it on
+
+    }
+
+            if(res_LED7 == 0){ // If LED 7 should be off
+
+       HAL_GPIO_WritePin(GPIOB, GPIO_PIN_2, 0); // Keep it off
+
+   } else{
+
+       HAL_GPIO_WritePin(GPIOB, GPIO_PIN_2, 1); // Else turn on
+
+    }
+
+            if(res_LED8 == 0){ // If LED 8 should be off
+
+       HAL_GPIO_WritePin(GPIOB, GPIO_PIN_3, 0); // Keep it off
+
+   } else{
+
+       HAL_GPIO_WritePin(GPIOB, GPIO_PIN_3, 1); // else turn it on
+
+    }
+
 
     /***************************************************************************
      * Your code goes in between this comment and the preceding one with
@@ -84,19 +198,20 @@ void LEDs_Set(char newPattern) {
  * LEDs_Get() should not change the state of the LEDs, or any SFRs.
  */
 char LEDs_Get(void) {
-    char led_state = 0x00;
+    char led_state = 0x00; // LED state initialized to 0
 #ifdef STM32F4
     /***************************************************************************
      * Your code goes in between this comment and the following one with
      * asterisks.
      **************************************************************************/
 
+led_state = light_conf; // LED state equals present light config as determined by Set
 
     /***************************************************************************
      * Your code goes in between this comment and the preceding one with
      * asterisks.
      **************************************************************************/
 #endif  /*  STM32F4 */
-    return led_state;
+    return led_state; // Return LED state
 }
 

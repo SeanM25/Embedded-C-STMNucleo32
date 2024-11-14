@@ -1,5 +1,5 @@
 /**
- * @file    Leds.h
+ * @file    Leds_Lab07.h
  * @author  Steve McGuire
  * @author  nubby (jlee211@ucsc.edu)
  * @date    22 Sep 2024
