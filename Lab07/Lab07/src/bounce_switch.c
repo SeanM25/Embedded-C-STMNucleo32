@@ -20,24 +20,25 @@
 
 // **** Set macros and preprocessor directives ****
 
-# define left 0
+# define left 0 // Constant for moving LEDs left
 
-#define right 1
+#define right 1 // Same as above but right
 
-#define testtime 30
+#define testtime 30 // Test variable used to make sure the LEDs were moving back and forth properly
+
 // **** Declare any datatypes here ****
 
 
-struct Timer {
+struct Timer { // Given timer struct with members event and time remaining
   uint8_t event;
   int16_t timeRemaining;
 };
 
 // **** Define global, module-level, or external variables here ****
 
-//static struct Timer T1 = {FALSE, testtime};
+//static struct Timer Timer1 = {FALSE, testtime}; // Test struct used to test LED oscillation logic
 
-static struct Timer T1;
+static struct Timer Timer1; // Timer 1 struct
 
 
 
@@ -46,9 +47,9 @@ static struct Timer T1;
 
 int main(void)
 {
-    BOARD_Init();
-    Timers_Init();
-    LEDs_Init();
+    BOARD_Init(); // Board On
+    Timers_Init(); // Timers On
+    LEDs_Init(); // LEDs On
     /***************************************************************************
      * Your code goes in between this comment and the following one with
      * asterisks.
@@ -66,54 +67,54 @@ int main(void)
      * asterisks.
      **************************************************************************/
 
-   char current_led = 0x01;
+   char current_led = 0x01; // Current LED pos set initially to the first led
 
-    char left_led = 0x01;
+    char left_led = 0x01; // left most led in our 8 LED array
 
-   char right_led = 0x80;
+   char right_led = 0x80; // Right most LED in array
 
-    char state = -1;
+    char state = -1; // State variable for switching logic
 
-   // T1.event = FALSE;
+   // Timer1.event = FALSE;
 
 
-    while (1){
+    while (1){ // Run Indefinitely in an Embedded context
 
-        if(T1.event == TRUE){
+        if(Timer1.event == TRUE){ // If there's an Timer event
 
- //printf("%d\n", current_led);
+ //printf("%d\n", current_led); // Used to test LED swirching without using the lights
 
- LEDs_Set(current_led);
+ LEDs_Set(current_led); // Turn on current LED
 
-            if(current_led == left_led){
+            if(current_led == left_led){ // If LED at left most position
 
-                state = right;
+                state = right; // We want to go right
 
             }
 
-            if(current_led == right_led){
+            if(current_led == right_led){ // If LED at right most position
 
-                state = left;
+                state = left; // Want to go left
 
             }
             
 
-            if(state == right){
+            if(state == right){ // If were going right
 
-                current_led <<= 1;
+                current_led <<= 1; // Shift LED position right by one each time
 
                }
 
-               if(state == left){
+               if(state == left){ // If going left
 
-                current_led >>= 1;
+                current_led >>= 1; // Shift LED position left by 1 each time
 
                }
 
 
             }
 
-           T1.event = FALSE;
+           Timer1.event = FALSE; // Clear event flag
 
 
         }
@@ -134,46 +135,50 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef* htim)
      * asterisks.
      **************************************************************************/
 
-u_int8_t switch_state = SWITCH_STATES();
+u_int8_t switch_state = SWITCH_STATES() + 1; // Present state of the LEDs incremented by 1 so it doesn't return 0
 
-u_int8_t count = 0;   
+u_int8_t count = 0; // Counting variable initilazed to 0
 
-__HAL_TIM_CLEAR_FLAG(htim, TIM_FLAG_UPDATE);
+uint8_t num = 5; // A constant number which gave me good switching results
+
+__HAL_TIM_CLEAR_FLAG(htim, TIM_FLAG_UPDATE); // Clear interrupt flag
 
 /*
 
-T1.timeRemaining--;
+Timer1.timeRemaining--; // Test Code for LED oscillation
 
-if(T1.timeRemaining == 0){
+if(Timer1.timeRemaining == 0){
 
-    T1.event = TRUE;
+    Timer1.event = TRUE;
 
-    T1.timeRemaining = testtime;
+    Timer1.timeRemaining = testtime;
 
 }
 */
 
-T1.timeRemaining--;
+Timer1.timeRemaining--; // Decrement Timer1
 
-if(T1.timeRemaining <= 0){
+if(Timer1.timeRemaining <= 0){ // If time = 0
 
-    T1.event = TRUE;
+    Timer1.event = TRUE; // Trigger Timer1 event
 
-if(switch_state & SW5_STATE()){
-
-
-        count |= 1;
-
-}
-
-if(switch_state & SW6_STATE()){
+if(switch_state & SW5_STATE()){ // If one switch is on
 
 
-        count |= 1;
+        count ^= 1; // XOR count variable by 1 for time remaining
 
 }
 
-T1.timeRemaining = ((SWITCH_STATES() + 1) * count);
+if((switch_state & SW6_STATE()) || (switch_state & SW5_STATE())){ // If either or both switches are on
+
+
+        count ^= 3; // Increase count for faster oscillation
+
+}
+
+//printf("%d\n", count); // Test code for counting
+
+Timer1.timeRemaining = (num - ((switch_state) * count)); // timeRemaining is more or less based on the switches return value
 
 }
 
