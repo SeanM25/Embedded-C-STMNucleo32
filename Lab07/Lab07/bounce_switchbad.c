@@ -20,13 +20,17 @@
 
 // **** Set macros and preprocessor directives ****
 
-# define left 0
+//#define time_T1 2000
+
+#define left 0
 
 #define right 1
 
-#define testtime 30
-// **** Declare any datatypes here ****
+#define test 2000
 
+#define test2 3000
+
+// **** Declare any datatypes here ****
 
 struct Timer {
   uint8_t event;
@@ -35,13 +39,11 @@ struct Timer {
 
 // **** Define global, module-level, or external variables here ****
 
-//static struct Timer T1 = {FALSE, testtime};
-
-static struct Timer T1;
-
-
-
 // **** Declare function prototypes ****
+
+static struct Timer T1 = {FALSE,test};
+
+static struct Timer T2 = {FALSE,test2};
 
 
 int main(void)
@@ -66,59 +68,56 @@ int main(void)
      * asterisks.
      **************************************************************************/
 
-   char current_led = 0x01;
+    char right_wing_led = 0x80;
+    
+    char left_wing_led = 0x01;
 
-    char left_led = 0x01;
+    char current_led = 0x01;
 
-   char right_led = 0x80;
-
-    char state = -1;
-
-   // T1.event = FALSE;
-
+    int state = -1;
 
     while (1){
 
+        
+
         if(T1.event == TRUE){
 
- //printf("%d\n", current_led);
-
- LEDs_Set(current_led);
-
-            if(current_led == left_led){
-
-                state = right;
-
-            }
-
-            if(current_led == right_led){
-
-                state = left;
-
-            }
-            
-
-            if(state == right){
-
-                current_led <<= 1;
-
-               }
-
-               if(state == left){
-
-                current_led >>= 1;
-
-               }
+            printf("It's Working !\n");
 
 
-            }
+            LEDs_Set(0x01);
 
-           T1.event = FALSE;
+            T1.event = FALSE;
+
+           // T1.event = FALSE;
+  
+   }
+
+         if(T2.event == TRUE){
+
+           T2.event = FALSE;
+
+            printf("It's Working Again !\n");
+
+            LEDs_Set(0x2);
+
+             T2.event = FALSE;
+
+           // T1.event = FALSE;
+  
+   }
 
 
-        }
+
+      //T1.event = FALSE;
+
+     // T2.event = FALSE;
+
 
     }
+
+    //while(1);
+}
 
 /**
  * This is the interrupt for the Timer2 peripheral. It should check for button
@@ -134,48 +133,85 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef* htim)
      * asterisks.
      **************************************************************************/
 
-u_int8_t switch_state = SWITCH_STATES();
+    //printf("Call\n");
 
-u_int8_t count = 0;   
+    /*
+    u_int8_t switch_count_right = 0x0;
 
-__HAL_TIM_CLEAR_FLAG(htim, TIM_FLAG_UPDATE);
+    u_int8_t switch_count_left = 0x0;
 
-/*
+    u_int8_t switch_pres_state = SWITCH_STATES(); // Switches are either 0, 1, 2, 3 depending on which are on at a given time no need to waste space
+
+    // = 0 neither on
+
+    // = 1 right switch on
+
+    // = 2 left switch on
+
+    // = 3 both on
+
+    T1.timeRemaining--;
+
+    if(T1.timeRemaining <= 0){
+
+        T1.event = TRUE;
+
+    
+    if(switch_pres_state & SW5_STATE()){
+
+        switch_count_left |= 1;
+        
+
+    }
+
+      if(switch_pres_state & SW6_STATE()){
+
+        switch_count_left |= 1;
+        
+
+    }
+
+        T1.timeRemaining = switch_count_left;
+
+        //printf("%d\n", T1.event);
+    }
+   
+*/
+
+//TIM1->SR &= ~TIM_SR_UIF;
+
+//__HAL_TIM_CLEAR_FLAG(htim, TIM_FLAG_UPDATE);
+
+//int bob = &htim2;
+
+//printf("%d\n",bob);
 
 T1.timeRemaining--;
+
+//if(T1.timeRemaining <= 0){
 
 if(T1.timeRemaining == 0){
 
-    T1.event = TRUE;
+ T1.event = TRUE;
 
-    T1.timeRemaining = testtime;
-
-}
-*/
-
-T1.timeRemaining--;
-
-if(T1.timeRemaining <= 0){
-
-    T1.event = TRUE;
-
-if(switch_state & SW5_STATE()){
-
-
-        count |= 1;
+ T1.timeRemaining = test;
 
 }
+//}
 
-if(switch_state & SW6_STATE()){
+T2.timeRemaining--;
 
+if(T2.timeRemaining <= 0){
 
-        count |= 1;
+if(T2.timeRemaining == 0){
+
+ T2.event = TRUE;
+
+ T2.timeRemaining = test2;
 
 }
-
-T1.timeRemaining = ((SWITCH_STATES() + 1) * count);
-
 }
+
 
 
 

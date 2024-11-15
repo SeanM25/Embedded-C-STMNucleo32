@@ -20,6 +20,12 @@
 
 // **** Set macros and preprocessor directives ****
 
+// Declare Constants for each Timer of 2, 3, & 5 seconds respectively time in ms
+
+#define TIMER_A_CountD 2000
+#define TIMER_B_CountD 3000
+#define TIMER_C_CountD 5000
+
 // **** Declare any datatypes here ****
 struct Timer {
   uint8_t event;
@@ -29,12 +35,6 @@ struct Timer {
 // **** Define global, module-level, or external variables here ****
 
 // **** Declare function prototypes ****
-
-// Declare Constants for each Timer of 2, 3, & 5 seconds respectively time in ms
-
-#define TIMER_A_CountD 2000
-#define TIMER_B_CountD 3000
-#define TIMER_C_CountD 5000
 
 // Declare Timer A, TimerB, and TimerC variables each initialized to false and the appropriate time
 
@@ -75,28 +75,35 @@ int main(void)
 
                printf("A\n"); // Print A
 
-               LEDs_Set(0x1); // Turn on LED1
+               LEDs_Set(0x01); // Turn on LED1
 
-               Timer_A.event = FALSE;  // Event A is False after exec
+               //Timer_A.event = FALSE;  // Event A is False after exec
         }
+
+        Timer_A.event = FALSE;
 
         if(Timer_B.event){
 
                printf("B\n"); // Print B
 
-               LEDs_Set(0x2); // Turn on LED 2
+               LEDs_Set(0x02); // Turn on LED 2
 
-               Timer_B.event = FALSE; // B event false after exec 
+               //Timer_B.event = FALSE; // B event false after exec 
         }
+
+         Timer_B.event = FALSE; // B event false after exec 
+
 
         if(Timer_C.event){
 
-               printf("C\n");
+              printf("C\n");
 
-              LEDs_Set(0x4); // Turn on LED 3
+              LEDs_Set(0x04); // Turn on LED 3
 
-               Timer_C.event = FALSE; // C False after Exec
+               //Timer_C.event = FALSE; // C False after Exec
         }
+
+         Timer_C.event = FALSE; // C False after Exec
 
 
     }
@@ -118,6 +125,9 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef* htim)
 
       // Update "Timer A".
       // If "Timer A" has counted down, generate "Timer A" event.
+
+      __HAL_TIM_CLEAR_FLAG(htim, TIM_FLAG_UPDATE);
+
 
       if(Timer_A.timeRemaining > 0){ // Countdown from 2 sec to 0 only to avoid errors
 
