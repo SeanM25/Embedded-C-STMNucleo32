@@ -7,7 +7,7 @@ static uint8_t last_button_state;
 
 static u_int8_t debounce_timer;
 
-// These are the return values of Button_States() for each of the buttons
+// These are the return values of Button_States() for each of the buttons note I'm looking at them Left --> Right
 
 #define button1val 8
 #define button2val 4
@@ -48,20 +48,20 @@ if(statusButton == last_button_state){  // If no new buttons have been pressed
 }
 
 
-// For Buttons 1 - 4 we check to see if the button has both been pressed and changed from its previous state
+// For Buttons 1 - 4 I check to see if the button has both been pressed and changed from its previous state
 // If both these conditions are met then we update the Button_pressed variable for each of the buttons
 
 
 // Button 1
 
-if((statusButton & button1val) && (last_button_state & button1val) == 0){
+if((statusButton & button1val) && (last_button_state & button1val) == 0){ // Has button 1's status changed (pressed down)?
 
-    Button_pressed |= BUTTON_EVENT_1DOWN;
+    Button_pressed |= BUTTON_EVENT_1DOWN; // If so its down
 
 
-} else if ((statusButton & button1val) == 0 && (last_button_state & button1val)){
+} else if ((statusButton & button1val) == 0 && (last_button_state & button1val)){ // If the buttons state hasnt changed (up)
 
-    Button_pressed |= BUTTON_EVENT_1UP;
+    Button_pressed |= BUTTON_EVENT_1UP; // Its up
 }
 
 // Button 2
