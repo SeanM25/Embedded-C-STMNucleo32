@@ -18,6 +18,8 @@
 #endif
 #ifndef ERROR
 #define ERROR ((int8_t) -1)
+#endif
+#ifndef SUCCESS
 #define SUCCESS ((int8_t) 1)
 #endif
 
@@ -25,11 +27,6 @@ static uint8_t init_status = FALSE;
 
 static uint32_t us; //microsecond count
 static uint32_t ms; //millisecond count
-
-static uint32_t IRQ_T_default = 999;  // T_interrupt in us, -1.
-static uint32_t IRQ_T_100Hz = 9999;
-static uint32_t IRQ_T_5Hz = 1999999;
-
 
 /**
  * @function Timers_Init(void)
@@ -46,6 +43,10 @@ char Timers_Init(void) {
 
         // Get the system clock freq in MHz.
         uint32_t system_clock_freq = Timers_GetSystemClockFreq() / 1000000;
+        // T_interrupt in us, -1.
+        uint32_t IRQ_T_default = system_clock_freq * (1000 - 1); 
+        uint32_t IRQ_T_100Hz = system_clock_freq * (10000 - 1);
+        uint32_t IRQ_T_5Hz = system_clock_freq * (200000 - 1);
 
         // Setup for TIM2.
         htim2.Instance = TIM2;

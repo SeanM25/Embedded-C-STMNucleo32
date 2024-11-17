@@ -3,9 +3,9 @@
 #include <Buttons.h>
 
 
-static uint8_t last_button_state;
+static uint8_t last_button_state = BUTTON_EVENT_NONE;
 
-static u_int8_t debounce_timer;
+static u_int8_t debounce_timer = BUTTON_EVENT_NONE;
 
 // These are the return values of Button_States() for each of the buttons note I'm looking at them Left --> Right
 
@@ -17,9 +17,11 @@ static u_int8_t debounce_timer;
 
 void Buttons_Init(void){ // Intialize our buttons
 
-    debounce_timer = BUTTON_EVENT_NONE; // Debounce timer set to 0 initially
+    //debounce_timer = BUTTON_EVENT_NONE; // Debounce timer set to 0 initially
 
-    last_button_state = BUTTON_EVENT_NONE; // previous button state is 0 intially
+    //last_button_state = BUTTON_EVENT_NONE; // previous button state is 0 intially
+
+    // This function actually does nothing?
 
 
 

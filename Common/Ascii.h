@@ -24,4 +24,10 @@
  */
 extern const uint8_t ascii[256][ASCII_FONT_WIDTH];
 
+#define OVEN_TOP_ON         "\x01"
+#define OVEN_TOP_OFF        "\x02"
+#define OVEN_BOTTOM_ON      "\x03"
+#define OVEN_BOTTOM_OFF     "\x04"
+#define DEGREE_SYMBOL       "\xF8"
+
 #endif // ASCII_H
