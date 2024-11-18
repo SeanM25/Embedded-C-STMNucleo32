@@ -87,7 +87,14 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef* htim)
      **************************************************************************/
     if (htim == &htim4) {
         // TIM4 interrupt.
+
+      __HAL_TIM_CLEAR_FLAG(htim, TIM_FLAG_UPDATE);
+
+
     } else if (htim == &htim3) {
+
+      __HAL_TIM_CLEAR_FLAG(htim, TIM_FLAG_UPDATE);
+
         // TIM3 interrupt.
     }
     /***************************************************************************
