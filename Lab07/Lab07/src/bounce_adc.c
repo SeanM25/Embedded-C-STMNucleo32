@@ -70,7 +70,7 @@ int main(void)
 
    myADC.event = TRUE;
 
-char* result [50]; // string to store results from Adc and percentage
+char result [50]; // string to store results from Adc and percentage
 
     while (1)
     {
@@ -81,7 +81,7 @@ char* result [50]; // string to store results from Adc and percentage
 
           //printf("ADC: %d Percentage: %d\n", myADC.voltage, percentage); // Print results on the terminal
 
-         sprintf(result, "ADC: %d Percentage: %d%%", myADC.voltage, percentage); // Gets results and stores in a string for OLED screen
+         sprintf(result, "ADC:%d Percent:%d%%", myADC.voltage, percentage); // Gets results and stores in a string for OLED screen
             
             OledClear(OLED_COLOR_BLACK); // Clear OLED
 
