@@ -3,7 +3,7 @@
 #include <Buttons.h>
 
 
-static uint8_t last_button_state = BUTTON_EVENT_NONE; // Gets previous state of buttons after each call to event checler
+static u_int8_t last_button_state = BUTTON_EVENT_NONE; // Gets previous state of buttons after each call to event checler
 
 static u_int8_t debounce_timer = BUTTON_EVENT_NONE; // Debounce timer initialized to 0
 
