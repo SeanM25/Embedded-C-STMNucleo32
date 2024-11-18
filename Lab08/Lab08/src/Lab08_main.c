@@ -4,6 +4,12 @@
 
 // Course library.
 #include <BOARD.h>
+#include "Timers.h"
+#include <Buttons.h>
+#include <stm32f4xx_hal.h>
+#include <Adc.h>
+#include <Oled.h>
+#include <OledDriver.h>
 
 // **** Set any macros or preprocessor directives here ****
 
@@ -61,6 +67,8 @@ int main()
         // check for events
         // on event, run runOvenSM()
         // clear event flags
+
+    
     };
 }
 
@@ -79,7 +87,7 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef* htim)
      **************************************************************************/
     if (htim == &htim4) {
         // TIM4 interrupt.
-    } else if (htim = &htim3) {
+    } else if (htim == &htim3) {
         // TIM3 interrupt.
     }
     /***************************************************************************
