@@ -4,6 +4,13 @@
 
 // Course library.
 #include <BOARD.h>
+#include <Adc.h>
+#include <Oled.h>
+#include <OledDriver.h>
+#include <Timers.h>
+#include <stm32f4xx_hal.h>
+
+
 
 // **** Set any macros or preprocessor directives here ****
 
@@ -79,7 +86,7 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef* htim)
      **************************************************************************/
     if (htim == &htim4) {
         // TIM4 interrupt.
-    } else if (htim = &htim3) {
+    } else if (htim == &htim3) {
         // TIM3 interrupt.
     }
     /***************************************************************************
