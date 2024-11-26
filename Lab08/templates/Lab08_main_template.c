@@ -4,13 +4,6 @@
 
 // Course library.
 #include <BOARD.h>
-#include <Adc.h>
-#include <Oled.h>
-#include <OledDriver.h>
-#include <Timers.h>
-#include <stm32f4xx_hal.h>
-
-
 
 // **** Set any macros or preprocessor directives here ****
 

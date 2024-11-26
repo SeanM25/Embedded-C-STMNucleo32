@@ -39,6 +39,7 @@ uint16_t voltage; // voltage member
 
 // **** Define global, module-level, or external variables here ****
 volatile uint16_t adc_val = 0; // Given intial ADC val
+volatile uint16_t oldADC = 0; // Given intial ADC val
 volatile uint8_t hasNewADC = FALSE; // Given inital code
 
 static struct AdcResult myADC; // Global struct to read ADC val
@@ -77,7 +78,7 @@ char result [50]; // string to store results from Adc and percentage
 
         if(myADC.event){
 
-           int percentage = (myADC.voltage / adcMAX) * hund; // Get Percentage of ADC value
+           int percentage = myADC.voltage / adcMAX * hund; // Get Percentage of ADC value
 
           //printf("ADC: %d Percentage: %d\n", myADC.voltage, percentage); // Print results on the terminal
 
@@ -120,9 +121,7 @@ void ADC_IRQHandler(void)
 
         myADC.event = TRUE; // execute an event
 
-    }
-
-    if(adc_val + winSIZE >= adcMAX){ // If near max value
+        if(adc_val + winSIZE >= adcMAX){ // If near max value
 
 
         myADC.voltage = adcMAX; // voltage = max threshold
@@ -134,6 +133,8 @@ void ADC_IRQHandler(void)
     } else{
 
         myADC.voltage =  adc_val; // otherwise voltage is current adc reading
+
+    }
 
     }
 
