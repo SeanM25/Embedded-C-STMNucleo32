@@ -23,7 +23,7 @@
 
 #define const_BROIL_TEMP 500 // In BROIL mode the temperature is a constant 500 degrees
 
-#define one_sec 5 // 5Hz = 5 oven cycles / sec
+#define LONG_PRESS 5 // 5Hz = 5 oven cycles / sec
 
 #define Hz 5 // same idea as above
 
@@ -77,9 +77,11 @@ static uint8_t changeTEMP = FALSE; // Flag to let us know if the temperature is 
 
 static uint8_t screenINV = FALSE; // Checks if the display is inverted or not?
 
-static uint16_t LED_STATE;
+static uint16_t LED_TIME;
 
 static uint16_t LED_MOD;
+
+static char LEDS_ON;
 
 static uint16_t free_run_storage;
 
@@ -291,11 +293,59 @@ switch(myoven.state){
 
         myoven.state = COOKING; // Switch state to Cooking
 
-        LED_STATE = (myoven.cooking_time_initial * Hz) / 8 ; // Set inital state of LEDS
+        LED_TIME = (myoven.cooking_time_initial * Hz) / 8 ; // Set inital state of LEDS
 
         LED_MOD = (myoven.cooking_time_initial * Hz) % 8 ; // Set initial Remainder of the LEDS
 
     }
+
+    break;
+
+     case COOKING:
+
+
+     if(TIMER_TICK){
+
+       // numTICKS++;
+
+        // LED CODE HERE
+
+
+        if((free_run_time - free_run_storage) % 5 == 0){ // If one 5Hz cycle has passed
+
+            myoven.cooking_time_REM--;
+
+            updateOvenOLED(myoven);
+
+        }
+
+
+
+        if(myoven.cooking_time_REM == 0){
+
+            myoven.cooking_time_REM = myoven.cooking_time_initial;
+
+            myoven.state = RED_ALERT_EC;
+
+            updateOvenOLED(myoven);
+
+            LEDs_Set(fade_out);
+
+        }
+
+        if(button_event_detect & BUTTON_EVENT_4DOWN){
+
+            myoven.BTN_PRESS_TIME = free_run_time;
+
+            myoven.state = RESET_PENDING;
+
+
+        }
+
+
+     }
+
+
 
     break;
 
@@ -304,59 +354,29 @@ switch(myoven.state){
 
     if(button_event_detect & BUTTON_EVENT_3UP){
 
-        uint16_t time_elapsed = free_run_time - myoven.BTN_PRESS_TIME;
+        if((free_run_time - myoven.BTN_PRESS_TIME) >= LONG_PRESS){ // Not Detecting quick even
 
+            myoven.mode += 1;
 
-        if(time_elapsed >= one_sec){
+            //printf("%d\n",myoven.mode);
 
-
-             if(changeTEMP){
-
-                changeTEMP = FALSE;
-            } else{
-
-                changeTEMP = TRUE;
-            }
-
-             updateOvenOLED(myoven);
-
-            myoven.state = SETUP;
-
-        }else{
-            
-            if(myoven.mode == BROIL){
+            if(myoven.mode > BROIL){
 
                 myoven.mode = BAKE;
-            } else{
-
-                myoven.mode++;
             }
 
-            if(myoven.mode == BROIL){
+                updateOvenOLED(myoven);
 
-                tempSWAP = myoven.oven_temp;
+                myoven.state = SETUP;
 
-                myoven.oven_temp = const_BROIL_TEMP;
+        } else{
 
-            } else if(myoven.mode == BAKE){
-
-                myoven.oven_temp = tempSWAP;
-            }
-
-            updateOvenOLED(myoven);
-
-            myoven.state = SETUP;
 
         }
-
+        
     }
 
     break;
-
-
-
-
-
 
 
     }
