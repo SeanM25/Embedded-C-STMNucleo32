@@ -41,7 +41,7 @@ int8_t I2C_Init(void) {
     if (init_status == FALSE) { // if I2C interface has not been initialized
 #ifdef STM32F4
         hi2c2.Instance = I2C2;
-        hi2c2.Init.ClockSpeed = 100000;
+        hi2c2.Init.ClockSpeed = 100000; // 100000
         hi2c2.Init.DutyCycle = I2C_DUTYCYCLE_2;
         hi2c2.Init.OwnAddress1 = 0;
         hi2c2.Init.AddressingMode = I2C_ADDRESSINGMODE_7BIT;
