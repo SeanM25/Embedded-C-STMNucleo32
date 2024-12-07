@@ -193,7 +193,7 @@ SquareStatus FieldSetSquareStatus(Field *f, uint8_t row, uint8_t col, SquareStat
  * So this is valid test code:
  * {
  *   Field myField;
- *   FieldInit(&myField,FIELD_SQUARE_EMPTY);
+ *   FieldInit(&myField, FIELD_SQUARE_EMPTY);
  *   FieldAddBoat(&myField, 0, 0, FIELD_BOAT_DIRECTION_EAST, FIELD_BOAT_TYPE_SMALL);
  *   FieldAddBoat(&myField, 1, 0, FIELD_BOAT_DIRECTION_EAST, FIELD_BOAT_TYPE_MEDIUM);
  *   FieldAddBoat(&myField, 1, 0, FIELD_BOAT_DIRECTION_EAST, FIELD_BOAT_TYPE_HUGE);

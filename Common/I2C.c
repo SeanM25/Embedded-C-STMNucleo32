@@ -15,6 +15,7 @@
 #endif  /*  STM32F4 */
 #include "I2C.h"
 
+
 // Boolean defines for TRUE, FALSE, SUCCESS and ERROR
 #ifndef FALSE
 #define FALSE ((int8_t) 0)
@@ -26,10 +27,26 @@
 #endif
 
 #ifdef STM32F4
+// I2C handler.
 I2C_HandleTypeDef hi2c2;
+// DMA handler. 
+DMA_HandleTypeDef hdma_i2c2_tx;
 #endif  /*  STM32F4 */
 
+
 static uint8_t init_status = FALSE;
+
+
+/** MX_DMA_Init()
+ *
+ */
+static void MX_DMA_Init(void)
+{
+    __HAL_RCC_DMA1_CLK_ENABLE();
+
+    HAL_NVIC_SetPriority(DMA1_Stream7_IRQn, 0, 0);
+    HAL_NVIC_EnableIRQ(DMA1_Stream7_IRQn);
+}
 
 /**
  * @Function I2C_Init(Rate)
@@ -40,8 +57,9 @@ static uint8_t init_status = FALSE;
 int8_t I2C_Init(void) {
     if (init_status == FALSE) { // if I2C interface has not been initialized
 #ifdef STM32F4
+        MX_DMA_Init();
         hi2c2.Instance = I2C2;
-        hi2c2.Init.ClockSpeed = 100000; // 100000
+        hi2c2.Init.ClockSpeed = 400000;
         hi2c2.Init.DutyCycle = I2C_DUTYCYCLE_2;
         hi2c2.Init.OwnAddress1 = 0;
         hi2c2.Init.AddressingMode = I2C_ADDRESSINGMODE_7BIT;
@@ -145,4 +163,9 @@ int I2C_ReadInt(char I2CAddress, char deviceRegisterAddress, char isBigEndian) {
     }
                                                                               #endif /*  STM32F4 */
     return data;
+}
+
+void DMA1_STREAM7_IRQHandler(void)
+{
+    HAL_DMA_IRQHandler(&hdma_i2c2_tx);
 }

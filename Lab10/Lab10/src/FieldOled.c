@@ -1,22 +1,11 @@
-/**
- * @file    FieldOled.c
- *
- * @author  Steve McGuire
- * @date    24 Sep 2024
- */
-
-#include <Ascii.h>
-#include <Oled.h>
-#include <OledDriver.h>
-
+#include "Oled.h"
+#include "OledDriver.h"
 #include "Field.h"
 #include "FieldOled.h"
-
+#include "Ascii.h"
 
 #define FIELD_SYMBOL_WIDTH 3
 #define FIELD_SYMBOL_HEIGHT 4
-
-
 const uint8_t gridSymbols[10][FIELD_SYMBOL_WIDTH] = {
     [FIELD_SQUARE_EMPTY] =
     {
@@ -88,7 +77,7 @@ void _FieldOledDrawField(const Field *f, int xOffset);
 void FieldOledDrawScreen(const Field *myField, const Field *theirField,
         FieldOledTurn playerTurn, uint8_t turn_number)
 {
-#ifndef __MPLAB_DEBUGGER_SIMULATOR
+#ifndef __NUCLEO_SIMULATOR
     OledClear(OLED_COLOR_BLACK);
     _FieldOledDrawField(myField, 0);
     if (theirField) {
@@ -98,7 +87,7 @@ void FieldOledDrawScreen(const Field *myField, const Field *theirField,
         return;
     }
 
-    //draw inner artwork
+    // Draw inner artwork.
     OledDrawChar(53, 1, 'P');
     OledDrawChar(76 - ASCII_FONT_WIDTH - 1, 1, 'O');
     if (playerTurn == FIELD_OLED_TURN_MINE) {
@@ -107,7 +96,7 @@ void FieldOledDrawScreen(const Field *myField, const Field *theirField,
         OledDrawChar(76 - ASCII_FONT_WIDTH - 1, ASCII_FONT_HEIGHT + 1, '>');
     }
 
-    //draw turn number:
+    // Draw turn number:
     int x;
     x = 76 - ASCII_FONT_WIDTH * 2;
     OledDrawChar(x, ASCII_FONT_HEIGHT * 3, turn_number % 10 + '0');
@@ -127,8 +116,9 @@ void _FieldOledDrawField(const Field *f, int xOffset)
     int i;
     int finalCol = 10 * 5 + 2;
 
-    int finalRowOffset = (OLED_DRIVER_PIXEL_ROWS / OLED_DRIVER_BUFFER_LINE_HEIGHT - 1) *
-            OLED_DRIVER_PIXEL_COLUMNS;
+    int finalRowOffset = (
+        OLED_DRIVER_PIXEL_ROWS / OLED_DRIVER_BUFFER_LINE_HEIGHT - 1
+    ) * OLED_DRIVER_PIXEL_COLUMNS;
 
     // Draw the horizontal grid borders.
     for (i = 0; i < finalCol; ++i) {

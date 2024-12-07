@@ -3,11 +3,13 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdint.h>
+#include <stdlib.h>
 
 // Course libraries.
 #include <BOARD.h>
+//#include <Leds.h>
+#include <Timers.h>
 #include <Buttons.h>
-#include <Uart.h>
 #include <Oled.h>
 
 // STM32 HAL libraries.
@@ -48,8 +50,8 @@
 
 
 //The amount of time between UART updates (in 100ths of a second)
-#define TRANSMIT_PERIOD 10
-
+#define TRANSMIT_PERIOD 1
+extern UART_HandleTypeDef huart2;
 /**
  *  Static data for BattleBoats top level:
  */
@@ -90,7 +92,7 @@ void Transmission_StartSendingMessage(const Message * message_to_send)
         OledClear(OLED_COLOR_BLACK);
         OledDrawString("Fatal Transmission Error!");
         OledUpdate();
-        FATAL_ERROR();
+        //FATAL_ERROR();
     case IDLE:
         //copy message into sending buffer:
         Message_Encode(outgoing_message_buffer, *message_to_send);
@@ -119,7 +121,7 @@ void Transmission_SendChar(void)
         transmission_state = IDLE;
         return;
     } else {
-        Uart1WriteByte(to_send);
+        HAL_UART_Transmit(&huart2, (uint8_t*)&to_send, 1, HAL_MAX_DELAY);
         outgoing_index++;
     }
 }
@@ -132,9 +134,12 @@ void Transmission_ReceiveChar(void)
 {
     unsigned char incoming_char;
 
-    //read from the UART (if there is anything to read:
-    if (!Uart1HasData()) return;
-    Uart1ReadByte(&incoming_char);
+    HAL_StatusTypeDef recvStatus = HAL_UART_Receive(&huart2, (uint8_t*)&incoming_char, 1, 0);
+    if (recvStatus == HAL_TIMEOUT)
+    {
+        //No char was available to read
+        return;
+    }
 
     // the commented line below is very handy for debugging Message_Decode
     debug_printf("%c | %02x\n", incoming_char, incoming_char);
@@ -202,12 +207,9 @@ int main()
 {
     BOARD_Init();
 
-    // Set up UART1 for output.
-    // <editor-fold defaultstate="collapsed" desc="Configure Timers and UART">
-    Uart1Init(UART_BAUD_RATE);
 
     //initialize CE13 libraries:
-    Buttons_Init();
+    ButtonsInit();
     Timers_Init();
     OledInit();
 
@@ -242,8 +244,10 @@ int main()
 
         }
 
+        HAL_Delay(1);
+
         //update the LEDs to show the agent's current state:
-        LATE = (1 << AgentGetState()); //this is very fast so we can do it directly in while(1) loop
+        //LATE = (1 << AgentGetState()); //this is very fast so we can do it directly in while(1) loop
     }
 }
 
@@ -254,7 +258,7 @@ int main()
 
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef* htim)
 {
-    if (htim = &htim3) {
+    if (htim == &htim3) {
         // Increment the timer
         freerunning_timer++;
 
@@ -277,6 +281,7 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef* htim)
         }
     }
 }
+
 
 //Provide weak implementations for students that didn't implement every function
 __attribute__((weak)) GuessData FieldAIDecideGuess(const Field *opp_field) {

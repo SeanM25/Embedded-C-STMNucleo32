@@ -1,15 +1,10 @@
 #ifndef FIELD_OLED_H
 #define FIELD_OLED_H
 
-// Course libraries.
-#include <BOARD.h>
-#include <Oled.h>
-
-// BattleBoats libraries.
 #include "Field.h"
+#include "BOARD.h"
+#include "Oled.h"
 #include "FieldOled.h"
-
-
 /**
  * Define a tri-state variable for indicating which agent's turn it is. Before and after the game,
  * the turn should always be `*_NONE`. This means that until turn negotiation is completed by an agent,
